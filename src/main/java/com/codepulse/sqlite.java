@@ -51,4 +51,18 @@ public class sqlite {
             System.out.println(e.getMessage());
         }
     }
+
+    public void AddCajero(String usuario, String contrasena, String email){
+        String sql="INSERT INTO cajero (usuario, contrasena, email) VALUES (?,?,?)";
+        try (Connection conn=DriverManager.getConnection(URL);
+            PreparedStatement ps=conn.prepareStatement(sql)) {
+            ps.setString(1, usuario);
+            ps.setString(2, contrasena);
+            ps.setString(3, email);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

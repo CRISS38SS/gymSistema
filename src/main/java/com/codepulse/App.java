@@ -27,6 +27,15 @@ public class App {
         db.crearTablas(createUsuarioTable);
         System.out.println("Tabla 'usuario' creada.");
 
+        String createCajeroTable = "CREATE TABLE IF NOT EXISTS cajero ("
+        + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        + "usuario TEXT NOT NULL, "
+        + "contrasena TEXT NOT NULL, "
+        + "email TEXT NOT NULL"
+        + ");";
+        db.crearTablas(createCajeroTable);
+        System.out.println("se creo la tabla cajero");
+
         // Iniciar la ventana de inicio de sesión
         InicioSesion is = new InicioSesion();
         is.setVisible(true);
