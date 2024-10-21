@@ -14,7 +14,6 @@ import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 
-	private static final long serialVersionUID = 1L;
 	private JPanel backGround;
 
 	/**
@@ -47,34 +46,38 @@ public class Principal extends JFrame {
 		setContentPane(backGround);
 		backGround.setLayout(null);
 		
+		//------botones--------------------------------------------------
 		JButton btnRegistro = new JButton("Registrar");
+		btnRegistro.addActionListener(e->{
+			JOptionPane.showMessageDialog(null, "se abre registro");
+		});
 		btnRegistro.setBackground(new Color(154, 153, 150));
 		btnRegistro.setFont(new Font("FreeSans", Font.BOLD, 26));
 		btnRegistro.setBorder(null);
-		btnRegistro.setBounds(248, 75, 280, 100);
+		btnRegistro.setBounds(248, 75, 590, 100);
 		backGround.add(btnRegistro);
+
+		JButton btnVerUsuario = new JButton("Ver Usuario");
+		btnVerUsuario.addActionListener(e->{
+			JOptionPane.showMessageDialog(null, "se abre ver usuario");
+		});
+		btnVerUsuario.setBackground(new Color(154, 153, 150));
+		btnVerUsuario.setFont(new Font("FreeSans", Font.BOLD, 26));
+		btnVerUsuario.setBorder(null);
+		btnVerUsuario.setBounds(248, 337, 590, 100);
+		backGround.add(btnVerUsuario);
 		
-		JButton btnVerUsuarios = new JButton("Ver Usuarios");
-		btnVerUsuarios.setBackground(new Color(154, 153, 150));
-		btnVerUsuarios.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnVerUsuarios.setBorder(null);
-		btnVerUsuarios.setBounds(558, 75, 280, 100);
-		backGround.add(btnVerUsuarios);
-		
-		JButton btnAsistencias = new JButton("Asistencias");
-		btnAsistencias.setBackground(new Color(154, 153, 150));
-		btnAsistencias.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnAsistencias.setBorder(null);
-		btnAsistencias.setBounds(248, 337, 280, 100);
-		backGround.add(btnAsistencias);
-		
-		JButton btnSeguimientoDePagos = new JButton("Seguimiento De pagos");
-		btnSeguimientoDePagos.setBackground(new Color(192, 191, 188));
-		btnSeguimientoDePagos.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnSeguimientoDePagos.setBorder(null);
-		btnSeguimientoDePagos.setBounds(248, 206, 590, 100);
-		backGround.add(btnSeguimientoDePagos);
-		
+		JButton btnPuntoVenta = new JButton("Punto de venta");
+		btnPuntoVenta.addActionListener(e->{
+			JOptionPane.showMessageDialog(null, "se abre punto de venta");
+		});
+		btnPuntoVenta.setBackground(new Color(192, 191, 188));
+		btnPuntoVenta.setFont(new Font("FreeSans", Font.BOLD, 26));
+		btnPuntoVenta.setBorder(null);
+		btnPuntoVenta.setBounds(248, 206, 590, 100);
+		backGround.add(btnPuntoVenta);
+		//---------------------------------------------------------------
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(154, 153, 150));
 		panel.setBounds(0, 0, 214, 490);
@@ -93,6 +96,7 @@ public class Principal extends JFrame {
 		lblAdmin.setBounds(12, 192, 190, 32);
 		panel.add(lblAdmin);
 		
+		//--------botones costado-------------------------------------------
 		JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e->{
             InicioSesion inicioSesion=new InicioSesion();
@@ -113,18 +117,12 @@ public class Principal extends JFrame {
 		btnCambiarImagen.setBackground(new Color(246, 245, 244));
 		btnCambiarImagen.setBounds(12, 235, 190, 54);
 		panel.add(btnCambiarImagen);
+		//--------------------------------------------------------------------
 		
-		JButton btnAsistencias_1 = new JButton("Asistencias");
-		btnAsistencias_1.setBackground(new Color(154, 153, 150));
-		btnAsistencias_1.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnAsistencias_1.setBorder(null);
-		btnAsistencias_1.setBounds(558, 337, 280, 100);
-		backGround.add(btnAsistencias_1);
-		
-		JLabel lblPrincipalGymLuffy = new JLabel("Principal Gym Luffy");
-		lblPrincipalGymLuffy.setFont(new Font("FreeSans", Font.BOLD, 30));
-		lblPrincipalGymLuffy.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPrincipalGymLuffy.setBounds(308, 12, 478, 39);
-		backGround.add(lblPrincipalGymLuffy);
+		JLabel lblGymGorillaz = new JLabel("Gym Gorillaz");
+		lblGymGorillaz.setFont(new Font("FreeSans", Font.BOLD, 30));
+		lblGymGorillaz.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGymGorillaz.setBounds(308, 12, 478, 39);
+		backGround.add(lblGymGorillaz);
 	}
 }
