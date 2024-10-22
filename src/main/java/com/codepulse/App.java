@@ -7,7 +7,7 @@ public class App {
 
         // SQL para crear la tabla de productos
         String createProductoTable = "CREATE TABLE IF NOT EXISTS producto ("
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "idProd INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "nombre TEXT NOT NULL,"
                 + "barraCode TEXT NOT NULL,"
                 + "cantidad INTEGER NOT NULL"
@@ -17,7 +17,7 @@ public class App {
 
         // SQL para crear la tabla de usuarios
         String createUsuarioTable = "CREATE TABLE IF NOT EXISTS usuario ("
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "idUsua INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "nombre TEXT NOT NULL,"
                 + "lastName TEXT NOT NULL,"
                 + "email TEXT NOT NULL,"
@@ -28,7 +28,7 @@ public class App {
         System.out.println("Tabla 'usuario' creada.");
 
         String createCajeroTable = "CREATE TABLE IF NOT EXISTS cajero ("
-        + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        + "idCajero INTEGER PRIMARY KEY AUTOINCREMENT, "
         + "usuario TEXT NOT NULL, "
         + "contrasena TEXT NOT NULL, "
         + "email TEXT NOT NULL"
