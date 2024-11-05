@@ -49,7 +49,8 @@ public class Principal extends JFrame {
 		//------botones--------------------------------------------------
 		JButton btnRegistro = new JButton("Registrar");
 		btnRegistro.addActionListener(e->{
-			JOptionPane.showMessageDialog(null, "se abre registro");
+			RegistroUsuario registroUsuario=new RegistroUsuario();
+			registroUsuario.setVisible(true);
 		});
 		btnRegistro.setBackground(new Color(154, 153, 150));
 		btnRegistro.setFont(new Font("FreeSans", Font.BOLD, 26));
