@@ -28,11 +28,11 @@ public class App {
         System.out.println("Tabla 'usuario' creada.");
 
         String createCajeroTable = "CREATE TABLE IF NOT EXISTS cajero ("
-        + "idCajero INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + "usuario TEXT NOT NULL, "
-        + "contrasena TEXT NOT NULL, "
-        + "email TEXT NOT NULL"
-        + ");";
+                + "idCajero INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "usuario TEXT NOT NULL, "
+                + "contrasena TEXT NOT NULL, "
+                + "email TEXT NOT NULL"
+                + ");";
         db.crearTablas(createCajeroTable);
         System.out.println("se creo la tabla cajero");
 

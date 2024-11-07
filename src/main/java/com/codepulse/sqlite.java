@@ -52,7 +52,7 @@ public class sqlite {
         }
     }
 
-    public void AddCajero(String usuario, String contrasena, String email){
+    public static void AddCajero(String usuario, String contrasena, String email){
         String sql="INSERT INTO cajero (usuario, contrasena, email) VALUES (?,?,?)";
         try (Connection conn=DriverManager.getConnection(URL);
             PreparedStatement ps=conn.prepareStatement(sql)) {

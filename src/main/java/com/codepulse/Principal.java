@@ -70,7 +70,9 @@ public class Principal extends JFrame {
 		
 		JButton btnPuntoVenta = new JButton("Punto de venta");
 		btnPuntoVenta.addActionListener(e->{
-			JOptionPane.showMessageDialog(null, "se abre punto de venta");
+			puntoVenta puntoVenta=new puntoVenta();
+			puntoVenta.setVisible(true);
+			dispose();
 		});
 		btnPuntoVenta.setBackground(new Color(192, 191, 188));
 		btnPuntoVenta.setFont(new Font("FreeSans", Font.BOLD, 26));

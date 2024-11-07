@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -30,6 +31,9 @@ public class Registro extends JFrame {
 
 		setContentPane(backGround);
 		backGround.setLayout(null);
+
+		//
+		sqlite sql=new sqlite();
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 235, 380);
@@ -108,6 +112,25 @@ public class Registro extends JFrame {
 		backGround.add(txtContrasena);
 		
 		JButton btnRegistro = new JButton("Registrarte");
+		btnRegistro.addActionListener(e->{
+			String nomCajero="";
+			String contrasena="";
+			String email="";
+			cajero cajero=new cajero();
+			cajero.setUsuario(txtUsuario.getText());
+			cajero.setContraseña(txtContrasena.getText());
+			cajero.setEmail(txtEmail.getText());
+			 
+			nomCajero=cajero.getUsuario();
+			contrasena=cajero.getContraseña();
+			email=cajero.getEmail();
+			if (nomCajero.isEmpty()||contrasena.isEmpty()||email.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debes de llenar los recuadros");
+			} else {
+				sqlite.AddCajero(nomCajero,contrasena,email);
+				JOptionPane.showMessageDialog(null, "Se agrego el cajero");
+			}
+		});
 		btnRegistro.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnRegistro.setBorder(null);
 		btnRegistro.setBackground(new Color(255, 255, 255));
