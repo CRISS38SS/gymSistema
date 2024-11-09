@@ -70,7 +70,7 @@ public class Principal extends JFrame {
 		
 		JButton btnPuntoVenta = new JButton("Punto de venta");
 		btnPuntoVenta.addActionListener(e->{
-			puntoVenta puntoVenta=new puntoVenta();
+			PuntoDeVentaUI puntoVenta=new PuntoDeVentaUI();
 			puntoVenta.setVisible(true);
 			dispose();
 		});

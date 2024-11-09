@@ -69,6 +69,9 @@ public class RegistroUsuario extends JFrame {
 
 
         exit=new JButton("Salir");
+        exit.addActionListener(e->{
+            dispose();
+        });
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=1;
