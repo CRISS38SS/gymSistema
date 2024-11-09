@@ -4,17 +4,25 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 
 	private JPanel backGround;
+	private JPanel panelDerecho;
+	private JPanel panelIzquierdo;
 
 	/**
 	 * Launch the application.
@@ -39,15 +47,45 @@ public class Principal extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 490);
         setLocationRelativeTo(null);
-		backGround = new JPanel();
-		backGround.setBackground(new Color(246, 245, 244));
-		backGround.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+
+		backGround = new JPanel(new GridBagLayout());
 		setContentPane(backGround);
-		backGround.setLayout(null);
 		
+		GridBagConstraints gbc=new GridBagConstraints();
+
+		//panel izquierdo
+		panelIzquierdo = new JPanel(new GridBagLayout());
+		panelIzquierdo.setBackground(new Color(154, 153, 150));
+		gbc=new GridBagConstraints();
+		gbc.weightx=0.2;
+		gbc.weighty=1;
+		gbc.gridx=0;
+		gbc.fill=GridBagConstraints.BOTH;
+		backGround.add(panelIzquierdo,gbc);
+
+		//panel Derecho
+		panelDerecho=new JPanel(new GridBagLayout());
+		panelDerecho.setBackground(new Color(246, 245, 244));
+		gbc=new GridBagConstraints();
+		gbc.weightx=0.8;
+		gbc.weighty=1;
+		gbc.gridx=1;
+		gbc.fill=GridBagConstraints.BOTH;
+		backGround.add(panelDerecho,gbc);
+
+		JLabel lblGymGorillaz = new JLabel("Gym Gorillaz");
+		lblGymGorillaz.setFont(new Font("FreeSans", Font.BOLD, 60));
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=0;
+		gbc.weightx=2;
+		gbc.anchor=GridBagConstraints.PAGE_START;
+		gbc.weighty=1;
+		panelDerecho.add(lblGymGorillaz,gbc);
+
 		//------botones--------------------------------------------------
-		JButton btnRegistro = new JButton("Registrar");
+		JButton btnRegistro = new JButton("Registrar Cliente");
 		btnRegistro.addActionListener(e->{
 			RegistroUsuario registroUsuario=new RegistroUsuario();
 			registroUsuario.setVisible(true);
@@ -55,19 +93,18 @@ public class Principal extends JFrame {
 		btnRegistro.setBackground(new Color(154, 153, 150));
 		btnRegistro.setFont(new Font("FreeSans", Font.BOLD, 26));
 		btnRegistro.setBorder(null);
-		btnRegistro.setBounds(248, 75, 590, 100);
-		backGround.add(btnRegistro);
+		btnRegistro.setPreferredSize(new Dimension(10,30));
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=1;
+		gbc.weightx=1;
+		gbc.weighty=1;
+		gbc.fill=GridBagConstraints.BOTH;
+		gbc.insets=new Insets(0,30,25,30);
+		gbc.anchor=GridBagConstraints.CENTER;
+		panelDerecho.add(btnRegistro,gbc);
 
-		JButton btnVerUsuario = new JButton("Ver Usuario");
-		btnVerUsuario.addActionListener(e->{
-			JOptionPane.showMessageDialog(null, "se abre ver usuario");
-		});
-		btnVerUsuario.setBackground(new Color(154, 153, 150));
-		btnVerUsuario.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnVerUsuario.setBorder(null);
-		btnVerUsuario.setBounds(248, 337, 590, 100);
-		backGround.add(btnVerUsuario);
-		
+
 		JButton btnPuntoVenta = new JButton("Punto de venta");
 		btnPuntoVenta.addActionListener(e->{
 			PuntoDeVentaUI puntoVenta=new PuntoDeVentaUI();
@@ -77,27 +114,63 @@ public class Principal extends JFrame {
 		btnPuntoVenta.setBackground(new Color(192, 191, 188));
 		btnPuntoVenta.setFont(new Font("FreeSans", Font.BOLD, 26));
 		btnPuntoVenta.setBorder(null);
-		btnPuntoVenta.setBounds(248, 206, 590, 100);
-		backGround.add(btnPuntoVenta);
-		//---------------------------------------------------------------
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=2;
+		gbc.weightx=1;
+		gbc.weighty=1;
+		gbc.fill=GridBagConstraints.BOTH;
+		gbc.insets=new Insets(0,30,25,30);
+		gbc.anchor=GridBagConstraints.CENTER;
+		panelDerecho.add(btnPuntoVenta,gbc);
 
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(154, 153, 150));
-		panel.setBounds(0, 0, 214, 490);
-		backGround.add(panel);
-		panel.setLayout(null);
+
+		JButton btnVerUsuario = new JButton("Ver Usuario");
+		btnVerUsuario.addActionListener(e->{
+			JOptionPane.showMessageDialog(null, "se abre ver usuario");
+		});
+		btnVerUsuario.setBackground(new Color(154, 153, 150));
+		btnVerUsuario.setFont(new Font("FreeSans", Font.BOLD, 26));
+		btnVerUsuario.setBorder(null);
+		//btnVerUsuario.setBounds(248, 337, 590, 100);
+		gbc=new GridBagConstraints();
+		gbc.weightx=1;
+		gbc.gridx=0;
+		gbc.gridy=3;
+		gbc.fill=GridBagConstraints.BOTH;
+		gbc.anchor=GridBagConstraints.CENTER;
+		gbc.weighty=1;
+		gbc.insets=new Insets(0,30,0,30);
+		panelDerecho.add(btnVerUsuario,gbc);
+
+		JLabel h = new JLabel("");
+		h.setFont(new Font("FreeSans", Font.BOLD, 60));
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=4;
+		gbc.weightx=2;
+		gbc.anchor=GridBagConstraints.PAGE_END;
+		gbc.weighty=1;
+		panelDerecho.add(h,gbc);
 		
-		JLabel lblImagen = new JLabel("Imagen");
-		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImagen.setBounds(12, 12, 190, 168);
-		panel.add(lblImagen);
+		//---------------------------------------------------------------
 		
-		JLabel lblAdmin = new JLabel("admin");
-		lblAdmin.setFont(new Font("FreeSans", Font.BOLD, 18));
-		lblAdmin.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdmin.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblAdmin.setBounds(12, 192, 190, 32);
-		panel.add(lblAdmin);
+		ImageIcon icon=new ImageIcon("src/main/java/com/Imagenes/logoCodePulse.jpg");
+		JLabel lblImagen = new JLabel(icon);
+		Image image=icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		lblImagen.setIcon(new ImageIcon(image));
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=0;
+		panelIzquierdo.add(lblImagen,gbc);
+		
+		JLabel lblAdmin = new JLabel("administrador");
+		lblAdmin.setFont(new Font("FreeSans", Font.BOLD, 30));
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=1;
+		gbc.anchor=GridBagConstraints.CENTER;
+		panelIzquierdo.add(lblAdmin,gbc);
 		
 		//--------botones costado-------------------------------------------
 		JButton btnCerrarSesin = new JButton("Cerrar Sesión");
@@ -109,23 +182,16 @@ public class Principal extends JFrame {
 		btnCerrarSesin.setFont(new Font("FreeSans", Font.BOLD, 20));
 		btnCerrarSesin.setBackground(new Color(119, 118, 123));
 		btnCerrarSesin.setForeground(new Color(255, 255, 255));
-		btnCerrarSesin.setBounds(12, 395, 190, 54);
-		panel.add(btnCerrarSesin);
+		btnCerrarSesin.setPreferredSize(new Dimension(200,80));
+		gbc=new GridBagConstraints();
+		gbc.weighty=1;
+		gbc.weightx=1;
+		gbc.gridy=2;
+		gbc.fill=GridBagConstraints.HORIZONTAL;
+		gbc.anchor=GridBagConstraints.PAGE_END;
+		gbc.insets=new Insets(0, 10, 5, 10);
+		panelIzquierdo.add(btnCerrarSesin,gbc);
 		
-		JButton btnCambiarImagen = new JButton("cambiar Imagen");
-        btnCambiarImagen.addActionListener(e->{
-            JOptionPane.showMessageDialog(null, "cambio la imagen");
-        });
-		btnCambiarImagen.setFont(new Font("FreeSans", Font.BOLD, 18));
-		btnCambiarImagen.setBackground(new Color(246, 245, 244));
-		btnCambiarImagen.setBounds(12, 235, 190, 54);
-		panel.add(btnCambiarImagen);
 		//--------------------------------------------------------------------
-		
-		JLabel lblGymGorillaz = new JLabel("Gym Gorillaz");
-		lblGymGorillaz.setFont(new Font("FreeSans", Font.BOLD, 30));
-		lblGymGorillaz.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGymGorillaz.setBounds(308, 12, 478, 39);
-		backGround.add(lblGymGorillaz);
 	}
 }
