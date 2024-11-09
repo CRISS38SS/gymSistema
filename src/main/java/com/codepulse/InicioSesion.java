@@ -2,7 +2,6 @@ package com.codepulse;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -13,8 +12,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
-import javax.swing.SwingConstants;
-import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
@@ -53,12 +52,13 @@ public class InicioSesion extends JFrame {
 		
 		ImageIcon icono = new ImageIcon("src/main/java/com/Imagenes/logoCodePulse.jpg");
         JLabel lblImagen = new JLabel(icono);
-        Image image = icono.getImage().getScaledInstance(190, 190, Image.SCALE_SMOOTH);
+        Image image = icono.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         lblImagen.setIcon(new ImageIcon(image));
 		gbc=new GridBagConstraints();
 		//gbc.gridx=0;
 		gbc.gridy=0;
 		gbc.weighty=1;
+		gbc.insets=new Insets(10, 15, 20, 15);
 		gbc.anchor=GridBagConstraints.PAGE_START;
 		panelIzquierdo.add(lblImagen,gbc);
 		
@@ -71,11 +71,12 @@ public class InicioSesion extends JFrame {
 		btnRegistro.setBackground(new Color(255, 255, 255));
 		btnRegistro.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnRegistro.setBorder(null);
+		btnRegistro.setPreferredSize(new Dimension(120,120));
 		//gbc.gridx=0;
 		gbc.gridy=1;
 		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.weightx=1;
-		gbc.insets=new Insets(0, 15, 0, 15);
+		gbc.insets=new Insets(0, 15, 20, 15);
 		gbc.weighty=1;
 		gbc.anchor=GridBagConstraints.CENTER;
 		panelIzquierdo.add(btnRegistro,gbc);
@@ -88,6 +89,7 @@ public class InicioSesion extends JFrame {
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnSalir.setBorder(null);
+		btnSalir.setPreferredSize(new Dimension(120,120));
 		//gbc.gridx=0;
 		gbc.gridy=2;
 		gbc.fill=GridBagConstraints.HORIZONTAL;
@@ -104,6 +106,7 @@ public class InicioSesion extends JFrame {
 		gbc.gridx=0;
 		gbc.gridy=0;
 		gbc.gridwidth=2;
+		gbc.fill=GridBagConstraints.HORIZONTAL;
 		panelDerecho.add(lblInicioSesin,gbc);
 		
 		JLabel lblUsuario = new JLabel("Usuario:");
@@ -168,10 +171,12 @@ public class InicioSesion extends JFrame {
 		btnInicioSesion.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnInicioSesion.setBorder(null);
 		btnInicioSesion.setBackground(new Color(255, 255, 255));
+		btnInicioSesion.setPreferredSize(new Dimension(60,60));
 		gbc.gridx=0;
 		gbc.gridy=5;
 		gbc.gridwidth=2;
-		gbc.insets=new Insets(35, 0, 0, 0);
+		gbc.fill=GridBagConstraints.HORIZONTAL;
+		gbc.insets=new Insets(15, 0, 0, 0);
 		panelDerecho.add(btnInicioSesion,gbc);
 	}
 	public static void main(String[] args) {
