@@ -29,8 +29,9 @@ public class RegistroUsuario extends JFrame {
 
     public RegistroUsuario() {
         // Configurar la ventana
-        setBounds(100, 100, 500, 500);
+        setBounds(100, 100, 550, 500);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         // Panel principal con GridBagLayout
         backGround = new JPanel();
@@ -59,16 +60,22 @@ public class RegistroUsuario extends JFrame {
 
         //-------------componentes de costadoBackGraound--------------------------------------
         // Configuración de lblImagenCostado
-        lblImagenCostado = new JLabel("Imagen");
+        ImageIcon icon = new ImageIcon("src/main/java/com/Imagenes/logoCodePulse.jpg");
+        lblImagenCostado = new JLabel(icon);
+        Image image = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        lblImagenCostado.setIcon(new ImageIcon(image));
         lblImagenCostado.setFont(new Font("FreeSans", Font.BOLD, 30));
         gbc = new GridBagConstraints(); // Reset de restricciones
         gbc.gridx = 0;
         gbc.gridy = 0; // Fila 0 para lblImagenCostado
-        gbc.insets = new Insets(10, 5, 350, 5);
+        gbc.anchor=GridBagConstraints.PAGE_START;
+        gbc.weighty=1;
         costadoBackGround.add(lblImagenCostado, gbc);
 
 
         exit=new JButton("Salir");
+        exit.setBackground(new Color(255, 255, 255));
+        exit.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         exit.addActionListener(e->{
             dispose();
         });
@@ -77,14 +84,16 @@ public class RegistroUsuario extends JFrame {
         gbc.gridy=1;
         gbc.insets = new Insets(10, 0, 40, 0);
         gbc.fill=GridBagConstraints.BOTH;
+        gbc.anchor=GridBagConstraints.PAGE_END;
         costadoBackGround.add(exit,gbc);
 
 
         //--------------------------componentes para mainPrincipal------------------------------
         // Configuración de lblRegistro en el panel principal
-        lblRegistro = new JLabel("Registro");
-        lblRegistro.setFont(new Font("FreeSans", Font.BOLD, 30));
+        lblRegistro = new JLabel("Registro De Cliente");
+        lblRegistro.setFont(new Font("FreeSans", Font.BOLD, 35));
         gbc = new GridBagConstraints();
+        gbc.gridwidth=2;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets=new Insets(10, 10, 20, 10);
@@ -92,6 +101,8 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de lblNombre
         lblNombre=new JLabel("Nombre");
+        lblNombre.setBackground(new Color(246, 245, 244));
+		lblNombre.setFont(new Font("FreeSerif", Font.BOLD, 24));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=1;
@@ -99,7 +110,11 @@ public class RegistroUsuario extends JFrame {
         mainPanel.add(lblNombre,gbc);
 
         // Configuración de txtNombre debajo de lblImagenCostado
-        txtNombre = new JTextField("Nombre",15); // Agrega un tamaño preferido
+        txtNombre = new JTextField("Nombre"); // Agrega un tamaño preferido
+        txtNombre.setBackground(new Color(246, 245, 244));
+		txtNombre.setFont(new Font("FreeSerif", Font.ITALIC, 24));
+		txtNombre.setBorder(null);
+		txtNombre.setColumns(10);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.insets=new Insets(10, 10, 20, 10);
@@ -107,6 +122,8 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de lblLastName
         lblLastName=new JLabel("Apellido");
+        lblLastName.setBackground(new Color(246, 245, 244));
+		lblLastName.setFont(new Font("FreeSerif", Font.BOLD, 24));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=2;
@@ -114,7 +131,11 @@ public class RegistroUsuario extends JFrame {
         mainPanel.add(lblLastName,gbc);
 
         //configuracion de txtLastName
-        txtLastName=new JTextField("apellido",15);
+        txtLastName=new JTextField("Apellido");
+        txtLastName.setBackground(new Color(246, 245, 244));
+		txtLastName.setFont(new Font("FreeSerif", Font.ITALIC, 24));
+		txtLastName.setBorder(null);
+		txtLastName.setColumns(10);
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=2;
@@ -123,6 +144,8 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de lblEmail
         lblEmail=new JLabel("Email");
+        lblEmail.setBackground(new Color(246, 245, 244));
+		lblEmail.setFont(new Font("FreeSerif", Font.BOLD, 24));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=3;
@@ -131,30 +154,45 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtEmail
         txtEmail=new JTextField("Email",15);
+        txtEmail.setBackground(new Color(246, 245, 244));
+		txtEmail.setFont(new Font("FreeSerif", Font.ITALIC, 24));
+		txtEmail.setBorder(null);
+		txtEmail.setColumns(10);
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=3;
         gbc.insets=new Insets(10, 10, 20, 10);
         mainPanel.add(txtEmail,gbc);
+
         //configuracion de lblsubscription
-        lblsubscription=new JLabel("suscripcion");
+        lblsubscription=new JLabel("Suscripcion");
+        lblsubscription.setBackground(new Color(246, 245, 244));
+		lblsubscription.setFont(new Font("FreeSerif", Font.BOLD, 24));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=4;
         gbc.insets=new Insets(10, 10, 20, 10);
         mainPanel.add(lblsubscription,gbc);
+
         //configuracion de txtsubscription
         txtsubscription=new JTextField("suscripcion",15);
+        txtsubscription.setBackground(new Color(246, 245, 244));
+		txtsubscription.setFont(new Font("FreeSerif", Font.ITALIC, 24));
+		txtsubscription.setBorder(null);
+		txtsubscription.setColumns(10);
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=4;
         gbc.insets=new Insets(10, 10, 20, 10);
         mainPanel.add(txtsubscription,gbc);
+
         // Configuración final de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //configuracion btnRegistration
         btnRegistration=new JButton("Registrar");
+        btnRegistration.setBackground(new Color(255, 255, 255));
+        btnRegistration.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=5;
@@ -164,6 +202,8 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion btnClean
         btnClean=new JButton("Borrar");
+        btnClean.setBackground(new Color(255, 255, 255));
+        btnClean.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=5;

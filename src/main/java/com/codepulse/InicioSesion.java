@@ -70,9 +70,7 @@ public class InicioSesion extends JFrame {
         });
 		btnRegistro.setBackground(new Color(255, 255, 255));
 		btnRegistro.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
-		btnRegistro.setBorder(null);
 		btnRegistro.setPreferredSize(new Dimension(120,120));
-		//gbc.gridx=0;
 		gbc.gridy=1;
 		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.weightx=1;
@@ -88,9 +86,7 @@ public class InicioSesion extends JFrame {
 		btnSalir.setBackground(new Color(61, 56, 70));
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
-		btnSalir.setBorder(null);
 		btnSalir.setPreferredSize(new Dimension(120,120));
-		//gbc.gridx=0;
 		gbc.gridy=2;
 		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.weightx=1;
@@ -169,8 +165,8 @@ public class InicioSesion extends JFrame {
 			this.dispose();
 		});
 		btnInicioSesion.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
-		btnInicioSesion.setBorder(null);
-		btnInicioSesion.setBackground(new Color(255, 255, 255));
+		btnInicioSesion.setForeground(new Color(255, 255, 255));
+		btnInicioSesion.setBackground(new Color(61, 56, 70));
 		btnInicioSesion.setPreferredSize(new Dimension(60,60));
 		gbc.gridx=0;
 		gbc.gridy=5;

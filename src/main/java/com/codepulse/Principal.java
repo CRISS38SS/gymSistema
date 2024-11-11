@@ -92,7 +92,6 @@ public class Principal extends JFrame {
 		});
 		btnRegistro.setBackground(new Color(154, 153, 150));
 		btnRegistro.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnRegistro.setBorder(null);
 		btnRegistro.setPreferredSize(new Dimension(10,30));
 		gbc=new GridBagConstraints();
 		gbc.gridx=0;
@@ -113,7 +112,6 @@ public class Principal extends JFrame {
 		});
 		btnPuntoVenta.setBackground(new Color(192, 191, 188));
 		btnPuntoVenta.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnPuntoVenta.setBorder(null);
 		gbc=new GridBagConstraints();
 		gbc.gridx=0;
 		gbc.gridy=2;
@@ -131,7 +129,6 @@ public class Principal extends JFrame {
 		});
 		btnVerUsuario.setBackground(new Color(154, 153, 150));
 		btnVerUsuario.setFont(new Font("FreeSans", Font.BOLD, 26));
-		btnVerUsuario.setBorder(null);
 		//btnVerUsuario.setBounds(248, 337, 590, 100);
 		gbc=new GridBagConstraints();
 		gbc.weightx=1;
