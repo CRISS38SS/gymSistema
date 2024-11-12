@@ -20,7 +20,7 @@ public class App {
                 + "idUsua INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "nombre TEXT NOT NULL,"
                 + "lastName TEXT NOT NULL,"
-                + "email TEXT NOT NULL,"
+                + "numero TEXT NOT NULL,"
                 + "fprint TEXT NOT NULL,"
                 + "subscription TEXT NOT NULL"
                 + ");";

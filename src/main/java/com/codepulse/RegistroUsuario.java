@@ -3,6 +3,7 @@ package com.codepulse;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class RegistroUsuario extends JFrame {
 
     //dueño del gym jaim gomez ibarra
@@ -16,8 +17,8 @@ public class RegistroUsuario extends JFrame {
     private JLabel lblNombre;
     private JLabel lblLastName;
     private JTextField txtLastName;
-    private JLabel lblEmail;
-    private JTextField txtEmail;
+    private JLabel lblNumero;
+    private JTextField txtNumero;
     private JLabel lblsubscription;
     private JTextField txtsubscription;
     private JButton btnRegistration;
@@ -143,26 +144,26 @@ public class RegistroUsuario extends JFrame {
         mainPanel.add(txtLastName,gbc);
 
         //configuracion de lblEmail
-        lblEmail=new JLabel("Email");
-        lblEmail.setBackground(new Color(246, 245, 244));
-		lblEmail.setFont(new Font("FreeSerif", Font.BOLD, 24));
+        lblNumero=new JLabel("Numero");
+        lblNumero.setBackground(new Color(246, 245, 244));
+		lblNumero.setFont(new Font("FreeSerif", Font.BOLD, 24));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=3;
         gbc.insets=new Insets(10, 10, 20, 10);
-        mainPanel.add(lblEmail,gbc);
+        mainPanel.add(lblNumero,gbc);
 
         //configuracion de txtEmail
-        txtEmail=new JTextField("Email",15);
-        txtEmail.setBackground(new Color(246, 245, 244));
-		txtEmail.setFont(new Font("FreeSerif", Font.ITALIC, 24));
-		txtEmail.setBorder(null);
-		txtEmail.setColumns(10);
+        txtNumero=new JTextField("Numero",15);
+        txtNumero.setBackground(new Color(246, 245, 244));
+		txtNumero.setFont(new Font("FreeSerif", Font.ITALIC, 24));
+		txtNumero.setBorder(null);
+		txtNumero.setColumns(10);
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=3;
         gbc.insets=new Insets(10, 10, 20, 10);
-        mainPanel.add(txtEmail,gbc);
+        mainPanel.add(txtNumero,gbc);
 
         //configuracion de lblsubscription
         lblsubscription=new JLabel("Suscripcion");
@@ -190,26 +191,45 @@ public class RegistroUsuario extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //configuracion btnRegistration
-        btnRegistration=new JButton("Registrar");
-        btnRegistration.setBackground(new Color(255, 255, 255));
-        btnRegistration.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
+        btnClean=new JButton("Borrar");
+        btnClean.setBackground(new Color(255, 255, 255));
+        btnClean.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=5;
         gbc.insets=new Insets(10, 10, 10, 10);
         gbc.fill=GridBagConstraints.BOTH;
-        mainPanel.add(btnRegistration,gbc);
+        mainPanel.add(btnClean,gbc);
 
         //configuracion btnClean
-        btnClean=new JButton("Borrar");
-        btnClean.setBackground(new Color(255, 255, 255));
-        btnClean.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
+        btnRegistration=new JButton("Registrar");
+        btnRegistration.addActionListener(e->{
+            Usuario usuario=new Usuario();
+            usuario.setName(txtNombre.getText());
+            usuario.setLastName(txtLastName.getText());
+            usuario.setNumero(txtNumero.getText());
+            usuario.setSubscription(txtsubscription.getText());
+            usuario.setFprint("hola");
+
+            String nombre="",lastname="",numero="",subscription="",fprint="";
+            nombre=usuario.getName();
+            lastname=usuario.getLastName();
+            numero=usuario.getNumero();
+            subscription=usuario.getSubscription();
+            fprint=usuario.getFprint();
+
+            JOptionPane.showMessageDialog(null, nombre+lastname+numero+subscription+"k");
+
+            sqlite.insertarUsuario(nombre,lastname,numero,"fprint",subscription);
+        });
+        btnRegistration.setBackground(new Color(255, 255, 255));
+        btnRegistration.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=5;
         gbc.insets=new Insets(10, 10, 10, 10);
         gbc.fill=GridBagConstraints.BOTH;
-        mainPanel.add(btnClean,gbc);
+        mainPanel.add(btnRegistration,gbc);
     }
 
     public static void main(String[] args) {

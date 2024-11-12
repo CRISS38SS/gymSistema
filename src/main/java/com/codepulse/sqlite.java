@@ -34,20 +34,20 @@ public class sqlite {
         }
     }
 
-    public void insertarUsuario(String name,String lastName, String email, String fprint, String subscription){
-        String sql="INSERT INTO usuario (nombre,lastName,email,fprint,subscription) VALUES (?,?,?,?,?)";
+    public static void insertarUsuario(String name,String lastName, String numero, String fprint, String subscription){
+        String sql="INSERT INTO usuario (nombre,lastName,numero,fprint,subscription) VALUES (?,?,?,?,?)";
 
         try (Connection conn=DriverManager.getConnection(URL);
             PreparedStatement ps=conn.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, lastName);
-            ps.setString(3, email);
+            ps.setString(3, numero);
             ps.setString(4, fprint);
             ps.setString(5, subscription);
 
             ps.executeUpdate();
             System.out.println("se insertaron los usuarios");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }

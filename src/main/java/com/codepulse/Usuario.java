@@ -4,7 +4,7 @@ public class Usuario {
     
     private String name;
     private String lastName;
-    private String email;
+    private String numero;
     private String fprint;
     private String subscription;
 
@@ -12,7 +12,7 @@ public class Usuario {
     public Usuario(String name, String lastName, String email, String fprint, String subscription) {
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
+        this.numero = email;
         this.fprint = fprint;
         this.subscription = subscription;
     }
@@ -42,13 +42,13 @@ public class Usuario {
     }
 
 
-    public String getEmail() {
-        return email;
+    public String getNumero() {
+        return numero;
     }
 
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNumero(String email) {
+        this.numero = email;
     }
 
 
