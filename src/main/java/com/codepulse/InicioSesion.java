@@ -2,8 +2,11 @@ package com.codepulse;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -11,7 +14,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.awt.Dimension;
 
 import javax.swing.JSeparator;
@@ -22,7 +28,7 @@ public class InicioSesion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel backGround;
 	private JTextField txtUsuario;
-	private JTextField txtContrasena;
+	private JPasswordField txtContrasena;
 	private JPanel panelDerecho;
 
 	public InicioSesion() {
@@ -147,7 +153,7 @@ public class InicioSesion extends JFrame {
 		gbc.insets=new Insets(0, 0, 35, 0);
 		panelDerecho.add(separatorContrasena,gbc);
 		
-		txtContrasena = new JTextField();
+		txtContrasena = new JPasswordField();
 		gbc=new GridBagConstraints();
 		txtContrasena.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtContrasena.setColumns(10);
@@ -160,9 +166,20 @@ public class InicioSesion extends JFrame {
 		JButton btnInicioSesion = new JButton("Inicio Sesión");
 		gbc=new GridBagConstraints();
 		btnInicioSesion.addActionListener(e->{
-			Principal principal=new Principal();
-			principal.setVisible(true);
-			this.dispose();
+
+		cajero cajer=new cajero();
+		String nombre,contrasena;
+		cajer.setUsuario(txtUsuario.getText());
+		cajer.setContraseña(String.valueOf(txtContrasena.getPassword()));
+		nombre=cajer.getUsuario();
+		contrasena=cajer.getContraseña();
+
+		if (nombre.isEmpty()||contrasena.isEmpty()) {
+			JOptionPane.showMessageDialog(null,"llena los campos");
+		}else{
+
+		verificar(nombre,contrasena);
+		}
 		});
 		btnInicioSesion.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnInicioSesion.setForeground(new Color(255, 255, 255));
@@ -178,5 +195,26 @@ public class InicioSesion extends JFrame {
 	public static void main(String[] args) {
 		InicioSesion inicioSesion=new InicioSesion();
 		inicioSesion.setVisible(true);
+	}
+
+	private void verificar(String nombre,String contrasena){
+		String URL="jdbc:sqlite:gymsistema.db";
+		String sql="SELECT * FROM cajero WHERE usuario=? AND contrasena=?";
+		try (Connection conn=DriverManager.getConnection(URL); PreparedStatement ps=conn.prepareStatement(sql)) {
+			ps.setString(1, nombre);
+			ps.setString(2, contrasena);
+
+			ResultSet s=ps.executeQuery();
+			if (s.next()) {
+				Principal principal=new Principal();
+				JOptionPane.showMessageDialog(null,"iniciando sesion");
+				principal.setVisible(true);
+				dispose();
+			}else{
+				JOptionPane.showMessageDialog(null, "no hay ningun usuario");
+			}
+		} catch (Exception e) {
+
+		}
 	}
 }

@@ -2,6 +2,8 @@ package com.codepulse;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +24,7 @@ public class Registro extends JFrame {
 
 	private JPanel backGround;
 	private JTextField txtUsuario;
-	private JTextField txtContrasena;
+	private JPasswordField txtContrasena;
 	private JTextField txtEmail;
 
 	JPanel panelIzquierdo;
@@ -153,7 +155,7 @@ public class Registro extends JFrame {
 		gbc.insets=new Insets(0, 0, 35, 0);
 		panelDerecho.add(separatorContrasena,gbc);
 		
-		txtContrasena = new JTextField();
+		txtContrasena = new JPasswordField();
 		txtContrasena.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtContrasena.setColumns(10);
 		txtContrasena.setBorder(null);
@@ -196,7 +198,7 @@ public class Registro extends JFrame {
 			String email="";
 			cajero cajero=new cajero();
 			cajero.setUsuario(txtUsuario.getText());
-			cajero.setContraseña(txtContrasena.getText());
+			cajero.setContraseña(String.valueOf(txtContrasena.getPassword()));
 			cajero.setEmail(txtEmail.getText());
 			 
 			nomCajero=cajero.getUsuario();
