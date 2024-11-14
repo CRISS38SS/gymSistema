@@ -26,7 +26,7 @@ public class Principal extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,9 +43,10 @@ public class Principal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Principal() {
+	public Principal(int id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 490);
+		setVisible(true);
         setLocationRelativeTo(null);
 
 
@@ -106,7 +107,7 @@ public class Principal extends JFrame {
 
 		JButton btnPuntoVenta = new JButton("Punto de venta");
 		btnPuntoVenta.addActionListener(e->{
-			PuntoDeVentaUI puntoVenta=new PuntoDeVentaUI();
+			PuntoDeVentaUI puntoVenta=new PuntoDeVentaUI(id);
 			puntoVenta.setVisible(true);
 			dispose();
 		});
@@ -161,7 +162,8 @@ public class Principal extends JFrame {
 		gbc.gridy=0;
 		panelIzquierdo.add(lblImagen,gbc);
 		
-		JLabel lblAdmin = new JLabel("administrador");
+		String nombre=sqlite.obtenerNombre(id);
+		JLabel lblAdmin = new JLabel(nombre);
 		lblAdmin.setFont(new Font("FreeSans", Font.BOLD, 30));
 		gbc=new GridBagConstraints();
 		gbc.gridx=0;

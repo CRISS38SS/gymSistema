@@ -20,7 +20,7 @@ public class PuntoDeVentaUI extends JFrame {
     private JTable tableProductos, tableHistorialVentas;
     private JSpinner spinnerCantidad;
     
-    public PuntoDeVentaUI() {
+    public PuntoDeVentaUI(int id) {
         setTitle("Sistema de Punto de Venta Avanzado");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -34,7 +34,7 @@ public class PuntoDeVentaUI extends JFrame {
         configurarSidePanel();
         configurarMainPanel();
         configurarProductOptionsPanel();
-        configurarBottomPanel();
+        configurarBottomPanel(id);
         configurarSummaryPanel();
 
     }
@@ -135,7 +135,7 @@ public class PuntoDeVentaUI extends JFrame {
         backGround.add(salesHistoryPanel, BorderLayout.WEST);
     }
 
-    private void configurarBottomPanel() {
+    private void configurarBottomPanel(int id) {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(new Color(180, 180, 180));
         bottomPanel.setPreferredSize(new Dimension(getWidth(), 80));
@@ -148,7 +148,7 @@ public class PuntoDeVentaUI extends JFrame {
 
         btnRegresar=new JButton("Regresar");
         btnRegresar.addActionListener(e->{
-            Principal principal=new Principal();
+            Principal principal=new Principal(id);
             principal.setVisible(true);
             dispose();
         });
@@ -156,11 +156,12 @@ public class PuntoDeVentaUI extends JFrame {
 
         backGround.add(bottomPanel, BorderLayout.SOUTH);
     }
-
+/*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             PuntoDeVentaUI ui = new PuntoDeVentaUI();
             ui.setVisible(true);
         });
     }
+        */
 }

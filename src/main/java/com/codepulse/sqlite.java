@@ -3,8 +3,11 @@ package com.codepulse;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 public class sqlite {
     Producto pr=new Producto();
@@ -64,5 +67,21 @@ public class sqlite {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static String obtenerNombre(int id){
+        String sql="SELECT usuario FROM cajero WHERE idCajero=?";
+        try (Connection con=DriverManager.getConnection(URL);
+            PreparedStatement ps=con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()) {
+                String nombre=rs.getString("usuario");
+                return nombre;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return null;
     }
 }
