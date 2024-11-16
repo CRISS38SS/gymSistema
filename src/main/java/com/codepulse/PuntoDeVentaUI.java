@@ -129,10 +129,13 @@ public class PuntoDeVentaUI extends JFrame {
         String[] columns = {"ID Venta", "Fecha", "Total"};
         Object[][] data = {};
         tableHistorialVentas = new JTable(data, columns);
+        
         JScrollPane scrollPane = new JScrollPane(tableHistorialVentas);
         salesHistoryPanel.add(scrollPane, BorderLayout.CENTER);
 
         backGround.add(salesHistoryPanel, BorderLayout.WEST);
+
+        
     }
 
     private void configurarBottomPanel(int id) {

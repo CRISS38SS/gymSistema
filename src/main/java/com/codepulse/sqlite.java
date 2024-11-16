@@ -22,13 +22,12 @@ public class sqlite {
         }
     }
 
-    public void insertarProducto(String name, String barraCode, int cantidad){
-        String sql="INSERT INTO producto (nombre, barraCode, cantidad) VALUES (?,?,?)";
+    public void insertarProducto(String name, int cantidad ){
+        String sql="INSERT INTO producto (nombre, cantidad) VALUES (?,?)";
         try (Connection conn=DriverManager.getConnection(URL);
             PreparedStatement ps=conn.prepareStatement(sql)) {
             ps.setString(1, name);
-            ps.setString(2, barraCode);
-            ps.setInt(3, cantidad);
+            ps.setInt(2, cantidad);
         
             ps.executeUpdate();
             System.out.println("se insertaron los productos");

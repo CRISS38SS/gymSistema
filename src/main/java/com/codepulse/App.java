@@ -9,7 +9,6 @@ public class App {
         String createProductoTable = "CREATE TABLE IF NOT EXISTS producto ("
                 + "idProd INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "nombre TEXT NOT NULL,"
-                + "barraCode TEXT NOT NULL,"
                 + "cantidad INTEGER NOT NULL"
                 + ");";
         db.crearTablas(createProductoTable);
