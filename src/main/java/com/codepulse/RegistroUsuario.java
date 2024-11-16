@@ -2,6 +2,8 @@ package com.codepulse;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 public class RegistroUsuario extends JFrame {
@@ -112,6 +114,7 @@ public class RegistroUsuario extends JFrame {
 
         // Configuración de txtNombre debajo de lblImagenCostado
         txtNombre = new JTextField("Nombre"); // Agrega un tamaño preferido
+        borraTextRestaura(txtNombre, "Nombre");
         txtNombre.setBackground(new Color(246, 245, 244));
 		txtNombre.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtNombre.setBorder(null);
@@ -133,6 +136,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtLastName
         txtLastName=new JTextField("Apellido");
+        borraTextRestaura(txtLastName, "Apellido");
         txtLastName.setBackground(new Color(246, 245, 244));
 		txtLastName.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtLastName.setBorder(null);
@@ -155,6 +159,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtEmail
         txtNumero=new JTextField("Numero",15);
+        borraTextRestaura(txtNumero, "Numero");
         txtNumero.setBackground(new Color(246, 245, 244));
 		txtNumero.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtNumero.setBorder(null);
@@ -177,6 +182,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtsubscription
         txtsubscription=new JTextField("suscripcion",15);
+        borraTextRestaura(txtsubscription, "suscripcion");
         txtsubscription.setBackground(new Color(246, 245, 244));
 		txtsubscription.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtsubscription.setBorder(null);
@@ -192,6 +198,12 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion btnRegistration
         btnClean=new JButton("Borrar");
+        btnClean.addActionListener(e->{
+            txtNombre.setText("Nombre");
+            txtLastName.setText("Apellido");
+            txtNumero.setText("Numero");
+            txtsubscription.setText("suscripcion");
+        });
         btnClean.setBackground(new Color(255, 255, 255));
         btnClean.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         gbc=new GridBagConstraints();
@@ -235,5 +247,25 @@ public class RegistroUsuario extends JFrame {
     public static void main(String[] args) {
         RegistroUsuario r = new RegistroUsuario();
         r.setVisible(true);
+    }
+
+    private void borraTextRestaura(JTextField field,String texto){
+    
+        field.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e){
+                if (field.getText().equals(texto)) {
+                    field.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e){
+                if (field.getText().isEmpty()) {
+                    field.setText(texto);
+                }
+            }
+        });
     }
 }
