@@ -7,9 +7,10 @@ public class App {
 
         // SQL para crear la tabla de productos
         String createProductoTable = "CREATE TABLE IF NOT EXISTS producto ("
-                + "idProd INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "nombre TEXT NOT NULL,"
-                + "cantidad INTEGER NOT NULL"
+                + "cantidad INTEGER NOT NULL,"
+                + "precio REAL NOT NULL"
                 + ");";
         db.crearTablas(createProductoTable);
         System.out.println("Tabla 'producto' creada.");

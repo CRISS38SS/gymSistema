@@ -1,6 +1,7 @@
 package com.codepulse;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class PuntoDeVentaUI extends JFrame {
@@ -9,34 +10,29 @@ public class PuntoDeVentaUI extends JFrame {
     private JPanel sidePanel;
     private JPanel mainPanel;
     private JPanel productOptionsPanel;
-    private JPanel summaryPanel;
-    private JPanel salesHistoryPanel;
     private JPanel bottomPanel;
 
-    private JButton btnAgregarProducto, btnQuitarProducto, btnBuscarProducto, btnFinalizarVenta;
-    private JButton btnVerHistorial,btnRegresar;
+    private JButton btnAgregarProducto, btnQuitarProducto, btnBuscarProducto, btnFinalizarVenta,btnHistorial;
     private JTextField txtBuscarProducto;
     private JLabel lblTotal;
-    private JTable tableProductos, tableHistorialVentas;
+    private JTable tableProductos;
     private JSpinner spinnerCantidad;
-    
+
     public PuntoDeVentaUI(int id) {
-        setTitle("Sistema de Punto de Venta Avanzado");
+        setTitle("Sistema de Punto de Venta");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5);
+        setSize(800, 600);
         setLocationRelativeTo(null);
 
-        backGround = new JPanel(new BorderLayout());
-        setContentPane(backGround);
-
-        // Configuración de paneles
+        configurarBackGround();
         configurarSidePanel();
         configurarMainPanel();
-        configurarProductOptionsPanel();
-        configurarBottomPanel(id);
-        configurarSummaryPanel();
+        configurarBottomPanel();
+    }
 
+    private void configurarBackGround() {
+        backGround = new JPanel(new BorderLayout());
+        setContentPane(backGround);
     }
 
     private void configurarSidePanel() {
@@ -46,15 +42,15 @@ public class PuntoDeVentaUI extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         btnQuitarProducto = new JButton("Quitar Producto");
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         sidePanel.add(btnQuitarProducto, gbc);
 
-        btnVerHistorial = new JButton("Ver Historial");
-        btnVerHistorial.addActionListener(e->{
-            configurarSalesHistoryPanel();
+        btnHistorial=new JButton("historial");
+        btnHistorial.addActionListener(e->{
+            mostrarHistorial();
         });
-        gbc.gridy = 3;
-        sidePanel.add(btnVerHistorial, gbc);
+        gbc.gridy=1;
+        sidePanel.add(btnHistorial,gbc);
 
         backGround.add(sidePanel, BorderLayout.WEST);
     }
@@ -64,17 +60,12 @@ public class PuntoDeVentaUI extends JFrame {
         mainPanel.setBackground(new Color(250, 250, 250));
 
         String[] columnNames = {"ID", "Producto", "Cantidad", "Precio", "Total"};
-        Object[][] data = {};
-        tableProductos = new JTable(data, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        tableProductos = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tableProductos);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        backGround.add(mainPanel, BorderLayout.CENTER);
-    }
-
-    private void configurarProductOptionsPanel() {
         productOptionsPanel = new JPanel(new GridBagLayout());
-        productOptionsPanel.setBackground(new Color(220, 220, 220));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
@@ -88,6 +79,10 @@ public class PuntoDeVentaUI extends JFrame {
         productOptionsPanel.add(txtBuscarProducto, gbc);
 
         btnBuscarProducto = new JButton("Buscar");
+        btnBuscarProducto.addActionListener(e->{
+            String prod=txtBuscarProducto.getText();
+            sqlite.buscarProducto(prod,tableProductos,spinnerCantidad);
+        });
         gbc.gridx = 2;
         productOptionsPanel.add(btnBuscarProducto, gbc);
 
@@ -101,70 +96,50 @@ public class PuntoDeVentaUI extends JFrame {
 
         btnAgregarProducto = new JButton("Agregar Producto");
         gbc.gridx = 2;
-        gbc.gridy = 1;
         productOptionsPanel.add(btnAgregarProducto, gbc);
 
-        backGround.add(productOptionsPanel, BorderLayout.NORTH);
+        mainPanel.add(productOptionsPanel, BorderLayout.NORTH);
+        backGround.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void configurarSummaryPanel() {
-        summaryPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-        summaryPanel.setBackground(new Color(240, 240, 240));
-        summaryPanel.setBorder(BorderFactory.createTitledBorder("Resumen de Venta"));
-
-        lblTotal = new JLabel("  Resumen de Venta  ");
-        summaryPanel.add(lblTotal);
-
-        lblTotal = new JLabel("Total: $0.00");
-        summaryPanel.add(lblTotal);
-
-        backGround.add(summaryPanel, BorderLayout.LINE_END);
-    }
-
-    private void configurarSalesHistoryPanel() {
-        salesHistoryPanel = new JPanel(new BorderLayout());
-        salesHistoryPanel.setBackground(new Color(245, 245, 245));
-        salesHistoryPanel.setBorder(BorderFactory.createTitledBorder("Historial de Ventas"));
-
-        String[] columns = {"ID Venta", "Fecha", "Total"};
-        Object[][] data = {};
-        tableHistorialVentas = new JTable(data, columns);
-        
-        JScrollPane scrollPane = new JScrollPane(tableHistorialVentas);
-        salesHistoryPanel.add(scrollPane, BorderLayout.CENTER);
-
-        backGround.add(salesHistoryPanel, BorderLayout.WEST);
-
-        
-    }
-
-    private void configurarBottomPanel(int id) {
+    private void configurarBottomPanel() {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(new Color(180, 180, 180));
-        bottomPanel.setPreferredSize(new Dimension(getWidth(), 80));
+        bottomPanel.setPreferredSize(new Dimension(getWidth(), 50));
+
+        lblTotal = new JLabel("Total: $0.00");
+        lblTotal.setHorizontalAlignment(SwingConstants.CENTER);
+        bottomPanel.add(lblTotal, BorderLayout.CENTER);
 
         btnFinalizarVenta = new JButton("Finalizar Venta");
-        btnFinalizarVenta.addActionListener(e->{
-            configurarSummaryPanel();
-        });
         bottomPanel.add(btnFinalizarVenta, BorderLayout.EAST);
-
-        btnRegresar=new JButton("Regresar");
-        btnRegresar.addActionListener(e->{
-            Principal principal=new Principal(id);
-            principal.setVisible(true);
-            dispose();
-        });
-        bottomPanel.add(btnRegresar,BorderLayout.WEST);
 
         backGround.add(bottomPanel, BorderLayout.SOUTH);
     }
-/*
+
+    private void mostrarHistorial() {
+        JDialog historialDialog = new JDialog(this, "Historial de Ventas", true);
+        historialDialog.setSize(600, 400);
+        historialDialog.setLocationRelativeTo(this);
+
+        String[] columnNames = {"ID Venta", "Fecha", "Total"};
+        Object[][] data = {
+                {"1", "2024-11-15", "$150.00"},
+                {"2", "2024-11-14", "$220.00"},
+                {"3", "2024-11-13", "$340.00"}
+        };
+
+        JTable tableHistorial = new JTable(new DefaultTableModel(data, columnNames));
+        JScrollPane scrollPane = new JScrollPane(tableHistorial);
+
+        historialDialog.add(scrollPane, BorderLayout.CENTER);
+        historialDialog.setVisible(true);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            PuntoDeVentaUI ui = new PuntoDeVentaUI();
+            PuntoDeVentaUI ui = new PuntoDeVentaUI(1);
             ui.setVisible(true);
         });
     }
-        */
 }

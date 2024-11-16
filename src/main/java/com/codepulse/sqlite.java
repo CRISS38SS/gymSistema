@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class sqlite {
     Producto pr=new Producto();
@@ -83,4 +86,59 @@ public class sqlite {
         }
         return null;
     }
+
+    public static void buscarProducto(String Producto,JTable tableProductos,JSpinner cantidadS) {
+        String nombreProducto = Producto.trim();
+        int cantidad=0;
+        if (nombreProducto.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese un nombre de producto para buscar.");
+            return;
+        }
+        String sql="SELECT id, nombre, precio, cantidad FROM producto WHERE nombre LIKE ?";
+        try (Connection con = DriverManager.getConnection(URL);
+            PreparedStatement statement=con.prepareStatement(sql)) {
+
+            statement.setString(1, "%" + nombreProducto + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            DefaultTableModel tableModel = (DefaultTableModel) tableProductos.getModel();
+            //tableModel.setRowCount(0); // Limpiar la tabla
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nombre = resultSet.getString("nombre");
+                double precio = resultSet.getDouble("precio");
+                cantidad =(int)cantidadS.getValue();
+                boolean productoEncontrado=false;
+
+                for(int i=0; i<tableModel.getRowCount(); i++){
+                    int idExistente=(int) tableModel.getValueAt(i, 0);
+                    if (idExistente==id) {
+                        int cantidadExistente=(int) tableModel.getValueAt(i, 2);
+                        tableModel.setValueAt(cantidadExistente + cantidad, i, 2);
+
+                        double totalExistente = (double) tableModel.getValueAt(i, 4);
+                        tableModel.setValueAt(totalExistente + (cantidad * precio), i, 4); // Actualizar el total
+                        productoEncontrado = true;
+                        productoEncontrado=true;
+                        break;
+                    }
+                }
+
+                if (!productoEncontrado) {
+                    double total=cantidad*precio;
+                    tableModel.addRow(new Object[]{id, nombre, cantidad,precio,total});
+
+                }
+            }
+
+            if (tableModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "No se encontraron productos con ese nombre.");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
+        }
+    }
+
 }
