@@ -12,22 +12,24 @@ public class PuntoDeVentaUI extends JFrame {
     private JPanel productOptionsPanel;
     private JPanel bottomPanel;
 
-    private JButton btnAgregarProducto, btnQuitarProducto, btnBuscarProducto, btnFinalizarVenta,btnHistorial;
+    private JButton btnAgregarProducto, btnQuitarProducto, btnFinalizarVenta,btnHistorial,btnRegresar,btnAgregarStock;
     private JTextField txtBuscarProducto;
     private JLabel lblTotal;
     private JTable tableProductos;
     private JSpinner spinnerCantidad;
 
-    public PuntoDeVentaUI(int id) {
+    public PuntoDeVentaUI(int id, String nombre) {
         setTitle("Sistema de Punto de Venta");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
 
         configurarBackGround();
-        configurarSidePanel();
+        configurarSidePanel(id);
         configurarMainPanel();
-        configurarBottomPanel();
+        configurarBottomPanel(id);
+
+        JOptionPane.showMessageDialog(null,nombre);
     }
 
     private void configurarBackGround() {
@@ -35,21 +37,31 @@ public class PuntoDeVentaUI extends JFrame {
         setContentPane(backGround);
     }
 
-    private void configurarSidePanel() {
+    private void configurarSidePanel(int id) {
         sidePanel = new JPanel(new GridBagLayout());
         sidePanel.setBackground(new Color(200, 200, 200));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
         btnQuitarProducto = new JButton("Quitar Producto");
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         sidePanel.add(btnQuitarProducto, gbc);
+
+        if (id==1) {
+            btnAgregarStock=new JButton("Agregar Stock");
+            btnAgregarStock.addActionListener(e->{
+
+            });
+            gbc=new GridBagConstraints();
+            gbc.gridy=0;
+            sidePanel.add(btnAgregarStock,gbc);
+        }
 
         btnHistorial=new JButton("historial");
         btnHistorial.addActionListener(e->{
             mostrarHistorial();
         });
-        gbc.gridy=1;
+        gbc.gridy=2;
         sidePanel.add(btnHistorial,gbc);
 
         backGround.add(sidePanel, BorderLayout.WEST);
@@ -78,14 +90,6 @@ public class PuntoDeVentaUI extends JFrame {
         gbc.gridx = 1;
         productOptionsPanel.add(txtBuscarProducto, gbc);
 
-        btnBuscarProducto = new JButton("Buscar");
-        btnBuscarProducto.addActionListener(e->{
-            String prod=txtBuscarProducto.getText();
-            sqlite.buscarProducto(prod,tableProductos,spinnerCantidad);
-        });
-        gbc.gridx = 2;
-        productOptionsPanel.add(btnBuscarProducto, gbc);
-
         spinnerCantidad = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -95,6 +99,10 @@ public class PuntoDeVentaUI extends JFrame {
         productOptionsPanel.add(spinnerCantidad, gbc);
 
         btnAgregarProducto = new JButton("Agregar Producto");
+        btnAgregarProducto.addActionListener(e->{
+            String prod=txtBuscarProducto.getText();
+            sqlite.buscarProducto(prod,tableProductos,spinnerCantidad);
+        });
         gbc.gridx = 2;
         productOptionsPanel.add(btnAgregarProducto, gbc);
 
@@ -102,7 +110,7 @@ public class PuntoDeVentaUI extends JFrame {
         backGround.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void configurarBottomPanel() {
+    private void configurarBottomPanel(int id) {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(new Color(180, 180, 180));
         bottomPanel.setPreferredSize(new Dimension(getWidth(), 50));
@@ -112,8 +120,19 @@ public class PuntoDeVentaUI extends JFrame {
         bottomPanel.add(lblTotal, BorderLayout.CENTER);
 
         btnFinalizarVenta = new JButton("Finalizar Venta");
+        btnFinalizarVenta.addActionListener(e->{
+            VtnConfirmaVta vta=new VtnConfirmaVta();
+            vta.setVisible(true);
+        });
         bottomPanel.add(btnFinalizarVenta, BorderLayout.EAST);
 
+        btnRegresar=new JButton("Regresar");
+        btnRegresar.addActionListener(e->{
+            Principal principal=new Principal(id);
+            principal.setVisible(true);
+            this.dispose();
+        });
+        bottomPanel.add(btnRegresar,BorderLayout.WEST);
         backGround.add(bottomPanel, BorderLayout.SOUTH);
     }
 
@@ -138,7 +157,7 @@ public class PuntoDeVentaUI extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            PuntoDeVentaUI ui = new PuntoDeVentaUI(1);
+            PuntoDeVentaUI ui = new PuntoDeVentaUI(2,"Fin");
             ui.setVisible(true);
         });
     }

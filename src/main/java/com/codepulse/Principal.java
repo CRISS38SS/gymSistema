@@ -105,7 +105,8 @@ public class Principal extends JFrame {
 
 		JButton btnPuntoVenta = new JButton("Punto de venta");
 		btnPuntoVenta.addActionListener(e->{
-			PuntoDeVentaUI puntoVenta=new PuntoDeVentaUI(id);
+			String nombre=sqlite.obtenerNombre(id);
+			PuntoDeVentaUI puntoVenta=new PuntoDeVentaUI(id,nombre);
 			puntoVenta.setVisible(true);
 			dispose();
 		});
