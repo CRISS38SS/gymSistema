@@ -14,7 +14,7 @@ public class PuntoDeVentaUI extends JFrame {
 
     private JButton btnAgregarProducto, btnQuitarProducto, btnFinalizarVenta,btnHistorial,btnRegresar,btnAgregarStock;
     private JTextField txtBuscarProducto;
-    private JLabel lblTotal;
+    private JLabel lblTotal, lblNombre;
     private JTable tableProductos;
     private JSpinner spinnerCantidad;
 
@@ -25,7 +25,7 @@ public class PuntoDeVentaUI extends JFrame {
         setLocationRelativeTo(null);
 
         configurarBackGround();
-        configurarSidePanel(id);
+        configurarSidePanel(id,nombre);
         configurarMainPanel();
         configurarBottomPanel(id);
 
@@ -37,23 +37,37 @@ public class PuntoDeVentaUI extends JFrame {
         setContentPane(backGround);
     }
 
-    private void configurarSidePanel(int id) {
+    private void configurarSidePanel(int id, String nombre) {
         sidePanel = new JPanel(new GridBagLayout());
         sidePanel.setBackground(new Color(200, 200, 200));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
+
+        lblNombre=new JLabel(nombre);
+        lblNombre.setFont(new Font("FreeSans", Font.BOLD, 30));
+        gbc=new GridBagConstraints();
+        gbc.gridy=0;
+        sidePanel.add(lblNombre,gbc);
+
         btnQuitarProducto = new JButton("Quitar Producto");
-        gbc.gridy = 1;
+        btnQuitarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnQuitarProducto.setBackground(new Color(119, 118, 123));
+		btnQuitarProducto.setForeground(new Color(255, 255, 255));
+        gbc.gridy = 2;
         sidePanel.add(btnQuitarProducto, gbc);
 
         if (id==1) {
             btnAgregarStock=new JButton("Agregar Stock");
             btnAgregarStock.addActionListener(e->{
-
+                ExistenciaProducto producto=new ExistenciaProducto();
+                producto.setVisible(true);
             });
+            btnAgregarStock.setFont(new Font("FreeSans", Font.BOLD, 20));
+            btnAgregarStock.setBackground(new Color(119, 118, 123));
+            btnAgregarStock.setForeground(new Color(255, 255, 255));
             gbc=new GridBagConstraints();
-            gbc.gridy=0;
+            gbc.gridy=1;
             sidePanel.add(btnAgregarStock,gbc);
         }
 
@@ -61,7 +75,10 @@ public class PuntoDeVentaUI extends JFrame {
         btnHistorial.addActionListener(e->{
             mostrarHistorial();
         });
-        gbc.gridy=2;
+        btnHistorial.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnHistorial.setBackground(new Color(119, 118, 123));
+		btnHistorial.setForeground(new Color(255, 255, 255));
+        gbc.gridy=3;
         sidePanel.add(btnHistorial,gbc);
 
         backGround.add(sidePanel, BorderLayout.WEST);
@@ -103,6 +120,9 @@ public class PuntoDeVentaUI extends JFrame {
             String prod=txtBuscarProducto.getText();
             sqlite.buscarProducto(prod,tableProductos,spinnerCantidad);
         });
+        btnAgregarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnAgregarProducto.setBackground(new Color(119, 118, 123));
+		btnAgregarProducto.setForeground(new Color(255, 255, 255));
         gbc.gridx = 2;
         productOptionsPanel.add(btnAgregarProducto, gbc);
 
@@ -116,6 +136,7 @@ public class PuntoDeVentaUI extends JFrame {
         bottomPanel.setPreferredSize(new Dimension(getWidth(), 50));
 
         lblTotal = new JLabel("Total: $0.00");
+        lblTotal.setFont(new Font("FreeSans", Font.BOLD, 30));
         lblTotal.setHorizontalAlignment(SwingConstants.CENTER);
         bottomPanel.add(lblTotal, BorderLayout.CENTER);
 
@@ -124,6 +145,9 @@ public class PuntoDeVentaUI extends JFrame {
             VtnConfirmaVta vta=new VtnConfirmaVta();
             vta.setVisible(true);
         });
+        btnFinalizarVenta.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnFinalizarVenta.setBackground(new Color(119, 118, 123));
+		btnFinalizarVenta.setForeground(new Color(255, 255, 255));
         bottomPanel.add(btnFinalizarVenta, BorderLayout.EAST);
 
         btnRegresar=new JButton("Regresar");
@@ -132,6 +156,9 @@ public class PuntoDeVentaUI extends JFrame {
             principal.setVisible(true);
             this.dispose();
         });
+        btnRegresar.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnRegresar.setBackground(new Color(119, 118, 123));
+		btnRegresar.setForeground(new Color(255, 255, 255));
         bottomPanel.add(btnRegresar,BorderLayout.WEST);
         backGround.add(bottomPanel, BorderLayout.SOUTH);
     }
@@ -157,7 +184,7 @@ public class PuntoDeVentaUI extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            PuntoDeVentaUI ui = new PuntoDeVentaUI(2,"Fin");
+            PuntoDeVentaUI ui = new PuntoDeVentaUI(1,"Fin");
             ui.setVisible(true);
         });
     }

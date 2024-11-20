@@ -2,12 +2,12 @@ package com.codepulse;
 
 public class Producto {
     private String name;
-    private String barCode;
+    private int precio;
     private int cantidad;
     
-    public Producto(String name, String barCode, int cantidad) {
+    public Producto(String name, int precio, int cantidad) {
         this.name = name;
-        this.barCode = barCode;
+        this.precio = precio;
         this.cantidad = cantidad;
     }
 
@@ -22,12 +22,12 @@ public class Producto {
         this.name = name;
     }
 
-    public String getBarCode() {
-        return barCode;
+    public int getPrecio() {
+        return precio;
     }
 
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
+    public void setPrecio(int precio) {
+        this.precio = precio;
     }
 
     public int getCantidad() {
@@ -37,6 +37,8 @@ public class Producto {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+
+
 
     
 }

@@ -25,12 +25,13 @@ public class sqlite {
         }
     }
 
-    public void insertarProducto(String name, int cantidad ){
-        String sql="INSERT INTO producto (nombre, cantidad) VALUES (?,?)";
+    public static void insertarProducto(String name, int cantidad, int precio ){
+        String sql="INSERT INTO producto (nombre, cantidad, precio) VALUES (?,?,?)";
         try (Connection conn=DriverManager.getConnection(URL);
             PreparedStatement ps=conn.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setInt(2, cantidad);
+            ps.setInt(3, precio);
         
             ps.executeUpdate();
             System.out.println("se insertaron los productos");
