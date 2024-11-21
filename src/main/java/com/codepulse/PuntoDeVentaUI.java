@@ -28,8 +28,6 @@ public class PuntoDeVentaUI extends JFrame {
         configurarSidePanel(id,nombre);
         configurarMainPanel();
         configurarBottomPanel(id);
-
-        JOptionPane.showMessageDialog(null,nombre);
     }
 
     private void configurarBackGround() {

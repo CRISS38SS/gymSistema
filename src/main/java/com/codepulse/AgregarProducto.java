@@ -202,7 +202,7 @@ public class AgregarProducto extends JFrame {
             nombre=producto.getName();
             precio=producto.getPrecio();
             cantidad=producto.getCantidad();
-            JOptionPane.showMessageDialog(null, nombre+" "+precio+" "+cantidad);
+            JOptionPane.showMessageDialog(null, "Se agrego producto al stock");
 
             sqlite.insertarProducto(nombre,precio, cantidad);
         });

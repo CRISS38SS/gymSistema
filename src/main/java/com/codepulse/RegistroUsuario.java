@@ -230,8 +230,6 @@ public class RegistroUsuario extends JFrame {
             subscription=usuario.getSubscription();
             fprint=usuario.getFprint();
 
-            JOptionPane.showMessageDialog(null, nombre+lastname+numero+subscription+"k");
-
             sqlite.insertarUsuario(nombre,lastname,numero,"fprint",subscription);
         });
         btnRegistration.setBackground(new Color(255, 255, 255));

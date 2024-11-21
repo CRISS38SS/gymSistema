@@ -208,7 +208,6 @@ public class InicioSesion extends JFrame {
 			if (s.next()) {
 				int id=s.getInt("idCajero");
 				Principal principal=new Principal(id);
-				JOptionPane.showMessageDialog(null,"iniciando sesion");
 				principal.setVisible(true);
 				dispose();
 			}else{

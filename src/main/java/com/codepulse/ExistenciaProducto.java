@@ -85,6 +85,9 @@ public class ExistenciaProducto extends JFrame{
         bottomPanel.setBackground(new Color(180, 180, 180));
 
         btnCancelar=new JButton("Cancelar");
+        btnCancelar.addActionListener(e->{
+            this.dispose();
+        });
         btnCancelar.setBackground(new Color(255, 255, 255));
         btnCancelar.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         bottomPanel.add(btnCancelar,BorderLayout.WEST);
