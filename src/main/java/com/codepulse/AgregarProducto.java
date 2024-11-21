@@ -21,8 +21,6 @@ public class AgregarProducto extends JFrame {
     private JTextField txtPrecio;
     private JLabel lblCantidad;
     private JTextField txtCantidad;
-    private JLabel lblsubscription;
-    private JTextField txtsubscription;
     private JButton btnAgregar;
     private JButton btnClean;
 

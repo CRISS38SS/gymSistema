@@ -88,6 +88,41 @@ public class sqlite {
         return null;
     }
 
+    public static void registroAdmin(String nombre, String contrasena, String correo){
+        String sql="SELECT idCajero FROM cajero WHERE usuario=? AND contrasena=? AND email=?";
+        try (Connection con=DriverManager.getConnection(URL); 
+            PreparedStatement ps=con.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ps.setString(2, contrasena);
+            ps.setString(3, correo);
+
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Ya esta el admin Registrado");
+            }else{
+                String sqll="INSERT INTO cajero (usuario,password,email) VALUES (?,?,?)";
+                try (PreparedStatement pss=con.prepareStatement(sqll)) {
+                    pss.setString(1, nombre);
+                    pss.setString(2, contrasena);
+                    pss.setString(3, correo);
+
+                    int row=pss.executeUpdate();
+                    if (row>0) {
+                        JOptionPane.showMessageDialog(null, "Se registro el Administrador");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se puede agreagr el administrador");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+
     public static void buscarProducto(String Producto,JTable tableProductos,JSpinner cantidadS) {
         String nombreProducto = Producto.trim();
         int cantidad=0;

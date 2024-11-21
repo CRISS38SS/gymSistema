@@ -223,14 +223,14 @@ public class RegistroUsuario extends JFrame {
             usuario.setSubscription(txtsubscription.getText());
             usuario.setFprint("hola");
 
-            String nombre="",lastname="",numero="",subscription="",fprint="";
+            String nombre="",lastname="",numero="",subscription="",fprint=" ";
             nombre=usuario.getName();
             lastname=usuario.getLastName();
             numero=usuario.getNumero();
             subscription=usuario.getSubscription();
             fprint=usuario.getFprint();
 
-            sqlite.insertarUsuario(nombre,lastname,numero,"fprint",subscription);
+            sqlite.insertarUsuario(nombre,lastname,numero,fprint,subscription);
         });
         btnRegistration.setBackground(new Color(255, 255, 255));
         btnRegistration.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
