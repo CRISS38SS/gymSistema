@@ -207,7 +207,7 @@ public class Registro extends JFrame {
 			if (nomCajero.isEmpty()||contrasena.isEmpty()||email.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debes de llenar los recuadros");
 			} else {
-				sqlite.AddCajero(nomCajero,contrasena,email);
+				sqlite.registroAdmin(nomCajero, contrasena, email);
 				JOptionPane.showMessageDialog(null, "Se agrego el cajero");
 			}
 		});
