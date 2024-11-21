@@ -208,7 +208,6 @@ public class Registro extends JFrame {
 				JOptionPane.showMessageDialog(null, "Debes de llenar los recuadros");
 			} else {
 				sqlite.registroAdmin(nomCajero, contrasena, email);
-				JOptionPane.showMessageDialog(null, "Se agrego el cajero");
 			}
 		});
 		btnRegistro.setFont(new Font("DejaVu Sans", Font.BOLD, 25));

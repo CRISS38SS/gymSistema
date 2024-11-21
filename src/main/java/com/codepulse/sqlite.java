@@ -88,39 +88,39 @@ public class sqlite {
         return null;
     }
 
-    public static void registroAdmin(String nombre, String contrasena, String correo){
-        String sql="SELECT idCajero FROM cajero WHERE usuario=? AND contrasena=? AND email=?";
-        try (Connection con=DriverManager.getConnection(URL); 
-            PreparedStatement ps=con.prepareStatement(sql)) {
-            ps.setString(1, nombre);
-            ps.setString(2, contrasena);
-            ps.setString(3, correo);
-
-            ResultSet rs=ps.executeQuery();
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Ya esta el admin Registrado");
-            }else{
-                String sqll="INSERT INTO cajero (usuario,password,email) VALUES (?,?,?)";
-                try (PreparedStatement pss=con.prepareStatement(sqll)) {
-                    pss.setString(1, nombre);
-                    pss.setString(2, contrasena);
-                    pss.setString(3, correo);
-
-                    int row=pss.executeUpdate();
-                    if (row>0) {
-                        JOptionPane.showMessageDialog(null, "Se registro el Administrador");
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No se puede agreagr el administrador");
+    public static void registroAdmin(String nombre, String contrasena, String correo) {
+        String sqlCheck = "SELECT COUNT(*) AS total FROM cajero";
+        String sqlInsert = "INSERT INTO cajero (usuario, contrasena, email) VALUES (?, ?, ?)";
+    
+        try (Connection con = DriverManager.getConnection(URL);
+             PreparedStatement psCheck = con.prepareStatement(sqlCheck)) {
+    
+            ResultSet rs = psCheck.executeQuery();
+            if (rs.next() && rs.getInt("total") > 0) {
+                JOptionPane.showMessageDialog(null, "Ya existe un administrador registrado.");
+            } else {
+                try (PreparedStatement psInsert = con.prepareStatement(sqlInsert)) {
+                    psInsert.setString(1, nombre);
+                    psInsert.setString(2, contrasena);
+                    psInsert.setString(3, correo);
+    
+                    int row = psInsert.executeUpdate();
+                    if (row > 0) {
+                        JOptionPane.showMessageDialog(null, "Administrador registrado exitosamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo registrar el administrador.");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al intentar registrar el administrador.");
                 }
             }
-
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.");
         }
     }
+    
 
 
     public static void buscarProducto(String Producto,JTable tableProductos,JSpinner cantidadS) {

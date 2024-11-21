@@ -173,19 +173,22 @@ public class Principal extends JFrame {
 		
 		//--------botones costado-------------------------------------------
 
-		btnRegistroCajero=new JButton("Registrar Cajero");
-		btnRegistroCajero.addActionListener(e->{
-			
-		});
-		btnRegistroCajero.setFont(new Font("FreeSans", Font.BOLD, 20));
-		btnRegistroCajero.setBackground(new Color(119, 118, 123));
-		btnRegistroCajero.setForeground(new Color(255, 255, 255));
-		btnRegistroCajero.setPreferredSize(new Dimension(200,80));
-		gbc=new GridBagConstraints();
-		gbc.gridx=0;
-		gbc.gridy=2;
-		gbc.fill=GridBagConstraints.HORIZONTAL;
-		panelIzquierdo.add(btnRegistroCajero,gbc);
+		if (id==1) {
+			btnRegistroCajero=new JButton("Registrar Cajero");
+			btnRegistroCajero.addActionListener(e->{
+				RegistroCajero registroCajero=new RegistroCajero();
+				registroCajero.setVisible(true);
+			});
+			btnRegistroCajero.setFont(new Font("FreeSans", Font.BOLD, 20));
+			btnRegistroCajero.setBackground(new Color(119, 118, 123));
+			btnRegistroCajero.setForeground(new Color(255, 255, 255));
+			btnRegistroCajero.setPreferredSize(new Dimension(200,80));
+			gbc=new GridBagConstraints();
+			gbc.gridx=0;
+			gbc.gridy=2;
+			gbc.fill=GridBagConstraints.HORIZONTAL;
+			panelIzquierdo.add(btnRegistroCajero,gbc);
+		}
 
 
 		JButton btnCerrarSesin = new JButton("Cerrar Sesión");
