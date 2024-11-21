@@ -21,6 +21,7 @@ public class Principal extends JFrame {
 	private JPanel backGround;
 	private JPanel panelDerecho;
 	private JPanel panelIzquierdo;
+	private JButton btnRegistroCajero;
 
 	/**
 	 * Launch the application.
@@ -171,6 +172,22 @@ public class Principal extends JFrame {
 		panelIzquierdo.add(lblAdmin,gbc);
 		
 		//--------botones costado-------------------------------------------
+
+		btnRegistroCajero=new JButton("Registrar Cajero");
+		btnRegistroCajero.addActionListener(e->{
+			
+		});
+		btnRegistroCajero.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnRegistroCajero.setBackground(new Color(119, 118, 123));
+		btnRegistroCajero.setForeground(new Color(255, 255, 255));
+		btnRegistroCajero.setPreferredSize(new Dimension(200,80));
+		gbc=new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=2;
+		gbc.fill=GridBagConstraints.HORIZONTAL;
+		panelIzquierdo.add(btnRegistroCajero,gbc);
+
+
 		JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e->{
             InicioSesion inicioSesion=new InicioSesion();
@@ -184,7 +201,7 @@ public class Principal extends JFrame {
 		gbc=new GridBagConstraints();
 		gbc.weighty=1;
 		gbc.weightx=1;
-		gbc.gridy=2;
+		gbc.gridy=3;
 		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.anchor=GridBagConstraints.PAGE_END;
 		gbc.insets=new Insets(0, 10, 5, 10);
