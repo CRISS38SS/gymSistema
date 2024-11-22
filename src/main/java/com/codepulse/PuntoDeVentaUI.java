@@ -19,6 +19,8 @@ public class PuntoDeVentaUI extends JFrame {
     private JSpinner spinnerCantidad;
     private int suma;
 
+    private CustomTableModel tableModel;
+
     public PuntoDeVentaUI(int id, String nombre) {
         setTitle("Sistema de Punto de Venta");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,7 +28,7 @@ public class PuntoDeVentaUI extends JFrame {
         setLocationRelativeTo(null);
 
         configurarBackGround();
-        configurarSidePanel(id,nombre);
+        configurarSidePanel(id,nombre,tableModel);
         configurarMainPanel();
         configurarBottomPanel(id,suma);
     }
@@ -36,7 +38,7 @@ public class PuntoDeVentaUI extends JFrame {
         setContentPane(backGround);
     }
 
-    private void configurarSidePanel(int id, String nombre) {
+    private void configurarSidePanel(int id, String nombre, CustomTableModel tableModel) {
         sidePanel = new JPanel(new GridBagLayout());
         sidePanel.setBackground(new Color(200, 200, 200));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -50,6 +52,9 @@ public class PuntoDeVentaUI extends JFrame {
         sidePanel.add(lblNombre,gbc);
 
         btnQuitarProducto = new JButton("Quitar Producto");
+        btnQuitarProducto.addActionListener(e->{
+            restarCantidad(tableProductos,(CustomTableModel) tableProductos.getModel(),mainPanel);
+        });
         btnQuitarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));
 		btnQuitarProducto.setBackground(new Color(119, 118, 123));
 		btnQuitarProducto.setForeground(new Color(255, 255, 255));
@@ -91,7 +96,7 @@ public class PuntoDeVentaUI extends JFrame {
 
         String[] columnNames = {"ID", "Producto", "Cantidad", "Precio", "Total"};
         Object[][] data={};
-        CustomTableModel tableModel = new CustomTableModel(data,columnNames);
+        tableModel = new CustomTableModel(data,columnNames);
         tableProductos = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tableProductos);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -211,6 +216,56 @@ public class PuntoDeVentaUI extends JFrame {
             ui.setVisible(true);
         });
     }
+
+    public void restarCantidad(JTable table, CustomTableModel model, JComponent parent) {
+        // Obtener fila seleccionada
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(parent, "Por favor, selecciona una fila primero.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Pedir la cantidad a restar
+        String input = JOptionPane.showInputDialog(parent, "Ingresa la cantidad a restar:");
+        if (input == null || input.trim().isEmpty()) {
+            return; // Cancelar si no se ingresa nada
+        }
+
+        try {
+            int cantidadARestar = Integer.parseInt(input);
+
+            // Validar que no sea negativa
+            if (cantidadARestar < 0) {
+                JOptionPane.showMessageDialog(parent, "La cantidad a restar no puede ser negativa.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener la cantidad actual
+            int cantidadActual = (int) model.getValueAt(selectedRow, 2); // Columna 2 es "Cantidad"
+
+            // Validar que no reste más de lo disponible
+            if (cantidadARestar > cantidadActual) {
+                JOptionPane.showMessageDialog(parent, "No puedes restar más de la cantidad disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Actualizar la cantidad en el modelo
+            int nuevaCantidad = cantidadActual-cantidadARestar;
+            if (nuevaCantidad==0) {
+                model.eliminarFila(selectedRow);
+            }else{
+                model.setValueAt(cantidadActual - cantidadARestar, selectedRow, 2);
+                double precio =(double)model.getValueAt(selectedRow, 3);
+                double nuevoTotal=nuevaCantidad * precio;
+                model.setValueAt(nuevoTotal, selectedRow, 4);
+            }
+
+            recalcularTotal();
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(parent, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
 
 // Clase personalizada para el modelo de la tabla
@@ -224,5 +279,13 @@ class CustomTableModel extends DefaultTableModel {
     public boolean isCellEditable(int row, int column) {
         // Deshabilitar la edición para todas las celdas
         return false;
+    }
+
+    public void eliminarFila(int fila) {
+        if (fila >= 0 && fila < getRowCount()) {
+            // Eliminar la fila del modelo
+            removeRow(fila);
+            fireTableRowsDeleted(fila, fila);
+        }
     }
 }
