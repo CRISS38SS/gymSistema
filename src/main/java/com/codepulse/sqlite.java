@@ -152,6 +152,10 @@ public class sqlite {
                     JOptionPane.showMessageDialog(null, "no hay stock");
                     return;
                 }
+                if (stock<cantidad) {
+                    JOptionPane.showMessageDialog(null, "no se puede agregar la cantidad seleccionada es mayor al stock: "+stock);
+                    return;
+                }
                 for(int i=0; i<tableModel.getRowCount(); i++){
                     int idExistente=(int) tableModel.getValueAt(i, 0);
                     if (idExistente==id) {
