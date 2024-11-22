@@ -90,7 +90,8 @@ public class PuntoDeVentaUI extends JFrame {
         mainPanel.setBackground(new Color(250, 250, 250));
 
         String[] columnNames = {"ID", "Producto", "Cantidad", "Precio", "Total"};
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        Object[][] data={};
+        CustomTableModel tableModel = new CustomTableModel(data,columnNames);
         tableProductos = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tableProductos);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -209,5 +210,19 @@ public class PuntoDeVentaUI extends JFrame {
             PuntoDeVentaUI ui = new PuntoDeVentaUI(1,"Fin");
             ui.setVisible(true);
         });
+    }
+}
+
+// Clase personalizada para el modelo de la tabla
+class CustomTableModel extends DefaultTableModel {
+
+    public CustomTableModel(Object[][] data, Object[] columnNames) {
+        super(data, columnNames);
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        // Deshabilitar la edición para todas las celdas
+        return false;
     }
 }
