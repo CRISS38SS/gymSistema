@@ -31,7 +31,7 @@ public class RegistroCajero extends JFrame {
 	JPanel panelDerecho;
 
 	public RegistroCajero() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 380);
 		setLocationRelativeTo(null);
 
@@ -80,7 +80,7 @@ public class RegistroCajero extends JFrame {
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnSalir.setBorder(null);
-		btnSalir.setPreferredSize(new Dimension(120,120));
+		//btnSalir.setPreferredSize(new Dimension(120,120));
 		gbc=new GridBagConstraints();
 		gbc.gridy=2;
 		gbc.anchor=GridBagConstraints.PAGE_END;

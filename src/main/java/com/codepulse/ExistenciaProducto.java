@@ -68,6 +68,7 @@ public class ExistenciaProducto extends JFrame{
         btnProdNuevo.addActionListener(e->{
             AgregarProducto producto=new AgregarProducto();
             producto.setVisible(true);
+            this.dispose();
         });
         btnProdNuevo.setBackground(new Color(255, 255, 255));
         btnProdNuevo.setFont(new Font("DejaVu Sans", Font.BOLD, 25));

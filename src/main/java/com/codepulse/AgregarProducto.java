@@ -146,7 +146,7 @@ public class AgregarProducto extends JFrame {
         mainPanel.add(txtPrecio,gbc);
 
         //configuracion de lblCantidad
-        lblCantidad=new JLabel("Numero");
+        lblCantidad=new JLabel("Cantidad");
         lblCantidad.setBackground(new Color(246, 245, 244));
 		lblCantidad.setFont(new Font("FreeSerif", Font.BOLD, 24));
         gbc=new GridBagConstraints();
@@ -202,7 +202,7 @@ public class AgregarProducto extends JFrame {
             cantidad=producto.getCantidad();
             JOptionPane.showMessageDialog(null, "Se agrego producto al stock");
 
-            sqlite.insertarProducto(nombre,precio, cantidad);
+            sqlite.insertarProducto(nombre,cantidad, precio);
         });
         btnAgregar.setBackground(new Color(255, 255, 255));
         btnAgregar.setFont(new Font("DejaVu Sans", Font.BOLD, 25));

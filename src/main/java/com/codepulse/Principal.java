@@ -186,6 +186,7 @@ public class Principal extends JFrame {
 			gbc=new GridBagConstraints();
 			gbc.gridx=0;
 			gbc.gridy=2;
+			gbc.insets=new Insets(0, 10, 0, 10);
 			gbc.fill=GridBagConstraints.HORIZONTAL;
 			panelIzquierdo.add(btnRegistroCajero,gbc);
 		}

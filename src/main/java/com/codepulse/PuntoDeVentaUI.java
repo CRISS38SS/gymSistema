@@ -53,6 +53,7 @@ public class PuntoDeVentaUI extends JFrame {
 		btnQuitarProducto.setBackground(new Color(119, 118, 123));
 		btnQuitarProducto.setForeground(new Color(255, 255, 255));
         gbc.gridy = 2;
+        gbc.insets=new Insets(5, 0, 0, 0);
         sidePanel.add(btnQuitarProducto, gbc);
 
         if (id==1) {
@@ -77,6 +78,7 @@ public class PuntoDeVentaUI extends JFrame {
 		btnHistorial.setBackground(new Color(119, 118, 123));
 		btnHistorial.setForeground(new Color(255, 255, 255));
         gbc.gridy=3;
+        gbc.insets=new Insets(5, 0, 0, 0);
         sidePanel.add(btnHistorial,gbc);
 
         backGround.add(sidePanel, BorderLayout.WEST);
