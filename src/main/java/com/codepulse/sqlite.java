@@ -144,13 +144,23 @@ public class sqlite {
                 int id = resultSet.getInt("id");
                 String nombre = resultSet.getString("nombre");
                 double precio = resultSet.getDouble("precio");
+                int stock=resultSet.getInt("cantidad");
                 cantidad =(int)cantidadS.getValue();
                 boolean productoEncontrado=false;
 
+                if (stock<=0) {
+                    JOptionPane.showMessageDialog(null, "no hay stock");
+                    return;
+                }
                 for(int i=0; i<tableModel.getRowCount(); i++){
                     int idExistente=(int) tableModel.getValueAt(i, 0);
                     if (idExistente==id) {
                         int cantidadExistente=(int) tableModel.getValueAt(i, 2);
+                        int to=cantidadExistente+cantidad;
+                        if (to>stock) {
+                            JOptionPane.showMessageDialog(null, "ya no hay mas stock, disponible: "+(stock-to));
+                            return;
+                        }
                         tableModel.setValueAt(cantidadExistente + cantidad, i, 2);
 
                         double totalExistente = (double) tableModel.getValueAt(i, 4);
