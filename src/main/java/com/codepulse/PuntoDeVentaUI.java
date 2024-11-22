@@ -17,6 +17,7 @@ public class PuntoDeVentaUI extends JFrame {
     private JLabel lblTotal, lblNombre;
     private JTable tableProductos;
     private JSpinner spinnerCantidad;
+    private int suma;
 
     public PuntoDeVentaUI(int id, String nombre) {
         setTitle("Sistema de Punto de Venta");
@@ -27,7 +28,7 @@ public class PuntoDeVentaUI extends JFrame {
         configurarBackGround();
         configurarSidePanel(id,nombre);
         configurarMainPanel();
-        configurarBottomPanel(id);
+        configurarBottomPanel(id,suma);
     }
 
     private void configurarBackGround() {
@@ -119,6 +120,7 @@ public class PuntoDeVentaUI extends JFrame {
         btnAgregarProducto.addActionListener(e->{
             String prod=txtBuscarProducto.getText();
             sqlite.buscarProducto(prod,tableProductos,spinnerCantidad);
+            recalcularTotal();
         });
         btnAgregarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));
 		btnAgregarProducto.setBackground(new Color(119, 118, 123));
@@ -130,12 +132,12 @@ public class PuntoDeVentaUI extends JFrame {
         backGround.add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void configurarBottomPanel(int id) {
+    private void configurarBottomPanel(int id,int suma) {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(new Color(180, 180, 180));
         bottomPanel.setPreferredSize(new Dimension(getWidth(), 50));
 
-        lblTotal = new JLabel("Total: $0.00");
+        lblTotal = new JLabel("Total: "+suma);
         lblTotal.setFont(new Font("FreeSans", Font.BOLD, 30));
         lblTotal.setHorizontalAlignment(SwingConstants.CENTER);
         bottomPanel.add(lblTotal, BorderLayout.CENTER);
@@ -180,6 +182,26 @@ public class PuntoDeVentaUI extends JFrame {
 
         historialDialog.add(scrollPane, BorderLayout.CENTER);
         historialDialog.setVisible(true);
+    }
+
+    private void recalcularTotal(){
+        int columnIndice=4;
+        suma=0;
+
+        for (int fila = 0; fila < tableProductos.getRowCount(); fila++) {
+            Object valor=tableProductos.getValueAt(fila, columnIndice);
+
+            if (valor instanceof Number) {
+                suma+=((Number) valor).intValue();
+            }else{
+                try {
+                    suma+=Integer.parseInt(valor.toString());
+                } catch (NumberFormatException e) {
+                    System.out.println("Error al convertir el valor: "+valor);
+                }
+            }
+        }
+        lblTotal.setText("Total: "+suma);
     }
 
     public static void main(String[] args) {
