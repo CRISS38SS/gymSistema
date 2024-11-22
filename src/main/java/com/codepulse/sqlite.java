@@ -158,7 +158,7 @@ public class sqlite {
                         int cantidadExistente=(int) tableModel.getValueAt(i, 2);
                         int to=cantidadExistente+cantidad;
                         if (to>stock) {
-                            JOptionPane.showMessageDialog(null, "ya no hay mas stock, disponible: "+(stock-to));
+                            JOptionPane.showMessageDialog(null, "ya no hay mas stock, disponible: "+stock);
                             return;
                         }
                         tableModel.setValueAt(cantidadExistente + cantidad, i, 2);
