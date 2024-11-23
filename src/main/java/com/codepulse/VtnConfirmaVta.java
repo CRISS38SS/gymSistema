@@ -9,7 +9,9 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 public class VtnConfirmaVta extends JFrame {
 
@@ -18,7 +20,7 @@ public class VtnConfirmaVta extends JFrame {
     private JButton btnConfimar;
     private JLabel lblConfirmar;
 
-    public  VtnConfirmaVta(){
+    public  VtnConfirmaVta(String ventaR, JTable table){
         setBounds(100, 100, 400, 200);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -52,6 +54,8 @@ public class VtnConfirmaVta extends JFrame {
 
         btnConfimar=new JButton("Confirmar");
         btnConfimar.addActionListener(e->{
+            JOptionPane.showMessageDialog(null, ventaR);
+            sqlite.rebajarCantidadBd(table);
             this.dispose();
         });
         btnConfimar.setBackground(new Color(150,150,150,150));
@@ -64,10 +68,11 @@ public class VtnConfirmaVta extends JFrame {
         backGround.add(btnConfimar,gbc);
 
     }
-
+/* 
     public static void main(String[] args) {
-        VtnConfirmaVta vta=new VtnConfirmaVta();
+        VtnConfirmaVta vta=new VtnConfirmaVta("d",);
         vta.setVisible(true);
     }
+        */
     
 }

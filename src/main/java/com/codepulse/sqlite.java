@@ -1,15 +1,22 @@
 package com.codepulse;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class sqlite {
@@ -121,60 +128,111 @@ public class sqlite {
         }
     }
     
+    public static void cargaDatosDeSql(JComboBox<String> comboBox){
+        List<String> allItems=loadItemsFromDatabase();
+                allItems.forEach(comboBox::addItem);
+        
+                JTextField textField=(JTextField) comboBox.getEditor().getEditorComponent();
+                textField.addKeyListener(new KeyAdapter(){
+                    @Override
+                    public void keyReleased(KeyEvent e){
+                        String input =textField.getText();
+                        comboBox.hidePopup();
+        
+                        comboBox.removeAllItems();
+                        for (String item : allItems) {
+                            if (item.toLowerCase().contains(input.toLowerCase())) {
+                                comboBox.addItem(item);
+                            }
+                        }
+                        comboBox.showPopup();
+                        textField.setText(input);
+                    }
+                });
+            }
 
+    private static List<String> loadItemsFromDatabase(){
+        List<String> items=new ArrayList<>();
+        String query="SELECT nombre FROM producto";
+        try (Connection con=DriverManager.getConnection(URL);
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                items.add(rs.getString("nombre"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al cargar los datos: "+e.getMessage());
+        }
+        return items;
+    }
 
-    public static void buscarProducto(String Producto,JTable tableProductos,JSpinner cantidadS) {
-        String nombreProducto = Producto.trim();
+    public static void buscarProductoDinamico(JComboBox<String> comboBox, JTable tableProductos, JSpinner cantidadS) {
+        String nombreProducto = ((JTextField) comboBox.getEditor().getEditorComponent()).getText().trim();
+        //int cantidad = (int) cantidadS.getValue();
         int cantidad=0;
+
         if (nombreProducto.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, ingrese un nombre de producto para buscar.");
             return;
         }
-        String sql="SELECT id, nombre, precio, cantidad FROM producto WHERE nombre LIKE ?";
+    
+        String sql = "SELECT id, nombre, precio, cantidad FROM producto WHERE nombre LIKE ?";
         try (Connection con = DriverManager.getConnection(URL);
-            PreparedStatement statement=con.prepareStatement(sql)) {
-
-            statement.setString(1, "%" + nombreProducto + "%");
+             PreparedStatement statement = con.prepareStatement(sql)) {
+    
+            statement.setString(1, nombreProducto);
             ResultSet resultSet = statement.executeQuery();
-
+    
             DefaultTableModel tableModel = (DefaultTableModel) tableProductos.getModel();
-            //tableModel.setRowCount(0); // Limpiar la tabla
-
+    
+            comboBox.removeAllItems();
+    
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String nombre = resultSet.getString("nombre");
                 double precio = resultSet.getDouble("precio");
-                int stock=resultSet.getInt("cantidad");
+                int stock = resultSet.getInt("cantidad");
                 cantidad =(int)cantidadS.getValue();
                 boolean productoEncontrado=false;
-
-                if (stock<=0) {
-                    JOptionPane.showMessageDialog(null, "no hay stock");
-                    return;
+    
+                // Agregar al comboBox las coincidencias encontradas
+                comboBox.addItem(nombre);
+    
+                // Si no hay stock, mostrar mensaje
+                if (stock <= 0) {
+                    JOptionPane.showMessageDialog(null, "El producto '" + nombre + "' no tiene stock disponible.");
+                    continue;
                 }
                 if (stock<cantidad) {
                     JOptionPane.showMessageDialog(null, "no se puede agregar la cantidad seleccionada es mayor al stock: "+stock);
-                    return;
+                    continue;
                 }
-                for(int i=0; i<tableModel.getRowCount(); i++){
-                    int idExistente=(int) tableModel.getValueAt(i, 0);
-                    if (idExistente==id) {
-                        int cantidadExistente=(int) tableModel.getValueAt(i, 2);
-                        int to=cantidadExistente+cantidad;
-                        if (to>stock) {
-                            JOptionPane.showMessageDialog(null, "ya no hay mas stock, disponible: "+stock);
+                // Verificar si el producto ya está en la tabla
+                //boolean existeEnTabla = false;
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    int idExistente = (int) tableModel.getValueAt(i, 0);
+                    if (idExistente == id) {
+                        int cantidadExistente = (int) tableModel.getValueAt(i, 2);
+                        int nuevaCantidad = cantidadExistente + cantidad;
+    
+                        // Verificar que la nueva cantidad no exceda el stock
+                        if (nuevaCantidad > stock) {
+                            JOptionPane.showMessageDialog(null, "No se puede agregar más cantidad. Stock disponible: " + stock);
                             return;
                         }
-                        tableModel.setValueAt(cantidadExistente + cantidad, i, 2);
-
+    
+                        // Actualizar la cantidad y el total en la tabla
+                        tableModel.setValueAt(nuevaCantidad, i, 2);
                         double totalExistente = (double) tableModel.getValueAt(i, 4);
-                        tableModel.setValueAt(totalExistente + (cantidad * precio), i, 4); // Actualizar el total
+                        tableModel.setValueAt(totalExistente + (cantidad * precio), i, 4);
                         productoEncontrado = true;
-                        productoEncontrado=true;
+                        cantidadS.setValue(1);;
                         break;
                     }
                 }
-
+    
                 if (!productoEncontrado) {
                     double total=cantidad*precio;
                     tableModel.addRow(new Object[]{id, nombre, cantidad,precio,total});
@@ -184,11 +242,88 @@ public class sqlite {
 
             if (tableModel.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "No se encontraron productos con ese nombre.");
+                comboBox.addItem("none");
             }
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
         }
     }
 
+    public static void inicializarComboBox(JComboBox<String> comboBox, String valorPredefinido) {
+        String sql = "SELECT DISTINCT nombre FROM producto"; // Consulta para obtener todos los nombres de productos
+        try (Connection con = DriverManager.getConnection(URL);
+             Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+    
+            comboBox.removeAllItems(); // Limpia los elementos existentes
+            comboBox.addItem(valorPredefinido); // Agrega el valor predefinido
+    
+            while (resultSet.next()) {
+                String nombreProducto = resultSet.getString("nombre");
+                if (!nombreProducto.equals(valorPredefinido)) {
+                    comboBox.addItem(nombreProducto);
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al inicializar el comboBox: " + e.getMessage());
+        }
+    }
+
+    
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public static String generarResumen(JTable tableProductos) {
+        StringBuilder resumen = new StringBuilder();
+        
+        // Recorremos todas las filas de la tabla
+        for (int i = 0; i < tableProductos.getRowCount(); i++) {
+            String nombre = tableProductos.getValueAt(i, 1).toString(); // Columna del nombre
+            int cantidad = Integer.parseInt(tableProductos.getValueAt(i, 2).toString()); // Columna de la cantidad
+            double total = Double.parseDouble(tableProductos.getValueAt(i, 4).toString()); // Columna del total
+            
+            // Agregamos los datos de la fila al resumen
+            resumen.append("Nombre: ").append(nombre)
+                   .append(", Cantidad: ").append(cantidad)
+                   .append(", Total: ").append(total)
+                   .append("\n");
+        }
+        
+        return resumen.toString();
+    }
+    
+
+    public static void rebajarCantidadBd(JTable tableProductos){
+        DefaultTableModel tableModel=(DefaultTableModel)tableProductos.getModel();
+        
+        // Recorremos todas las filas de la tabla
+        for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
+            int id=Integer.parseInt(tableProductos.getValueAt(i, 0).toString());
+            int cantidad = Integer.parseInt(tableProductos.getValueAt(i, 2).toString()); // Columna de la cantidad
+
+            String sql = "UPDATE producto " +
+                   "SET cantidad = CASE " +
+                   "WHEN cantidad - ? < 0 THEN 0 " +
+                   "ELSE cantidad - ? " +
+                   "END " +
+                   "WHERE id = ?";    
+                       
+            try (Connection con=DriverManager.getConnection(URL);
+            PreparedStatement ps =con.prepareStatement(sql)) {
+            ps.setInt(1,cantidad);
+            ps.setInt(2, cantidad);
+            ps.setInt(3, id);
+
+            int rowA=ps.executeUpdate();
+            if (rowA>0) {
+                System.out.println("Cantidad actualizada para el producto con ID: " + id);
+            }else{
+                System.out.println("No se encontró el producto con ID: " + id);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar la cantidad del producto: " + e.getMessage());
+        }
+
+        tableModel.removeRow(i);
+        }
+    }
 }

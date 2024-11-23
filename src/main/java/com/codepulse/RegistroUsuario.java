@@ -22,7 +22,7 @@ public class RegistroUsuario extends JFrame {
     private JLabel lblNumero;
     private JTextField txtNumero;
     private JLabel lblsubscription;
-    private JTextField txtsubscription;
+    private JComboBox<String> JCBSubscription;
     private JButton btnRegistration;
     private JButton btnClean;
 
@@ -180,18 +180,18 @@ public class RegistroUsuario extends JFrame {
         gbc.insets=new Insets(10, 10, 20, 10);
         mainPanel.add(lblsubscription,gbc);
 
-        //configuracion de txtsubscription
-        txtsubscription=new JTextField("suscripcion",15);
-        borraTextRestaura(txtsubscription, "suscripcion");
-        txtsubscription.setBackground(new Color(246, 245, 244));
-		txtsubscription.setFont(new Font("FreeSerif", Font.ITALIC, 24));
-		txtsubscription.setBorder(null);
-		txtsubscription.setColumns(10);
+        //configuracion de JCBSubscription
+        JCBSubscription=new JComboBox<>(new String[]{"Elegir","Mensual","Semanal","Visita","Anual"});
+        borraTextRestauraJCB(JCBSubscription, "Elegir");
+        JCBSubscription.setBackground(new Color(246, 245, 244));
+		JCBSubscription.setFont(new Font("FreeSerif", Font.ITALIC, 24));
+		JCBSubscription.setBorder(null);
         gbc=new GridBagConstraints();
         gbc.gridx=1;
         gbc.gridy=4;
+        gbc.fill=GridBagConstraints.HORIZONTAL;
         gbc.insets=new Insets(10, 10, 20, 10);
-        mainPanel.add(txtsubscription,gbc);
+        mainPanel.add(JCBSubscription,gbc);
 
         // Configuración final de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -202,7 +202,7 @@ public class RegistroUsuario extends JFrame {
             txtNombre.setText("Nombre");
             txtLastName.setText("Apellido");
             txtNumero.setText("Numero");
-            txtsubscription.setText("suscripcion");
+            JCBSubscription.setSelectedIndex(0);
         });
         btnClean.setBackground(new Color(255, 255, 255));
         btnClean.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
@@ -220,7 +220,7 @@ public class RegistroUsuario extends JFrame {
             usuario.setName(txtNombre.getText());
             usuario.setLastName(txtLastName.getText());
             usuario.setNumero(txtNumero.getText());
-            usuario.setSubscription(txtsubscription.getText());
+            usuario.setSubscription(JCBSubscription.getSelectedItem().toString());
             usuario.setFprint("hola");
 
             String nombre="",lastname="",numero="",subscription="",fprint=" ";
@@ -266,4 +266,23 @@ public class RegistroUsuario extends JFrame {
             }
         });
     }
+
+    private void borraTextRestauraJCB(JComboBox<String> comboBox, String placeholder) {
+        comboBox.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (comboBox.getSelectedItem().equals(placeholder)) {
+                    comboBox.setSelectedItem("Elegir");
+                }
+            }
+    
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (comboBox.getSelectedItem() == null || comboBox.getSelectedItem().toString().isEmpty()) {
+                    comboBox.setSelectedItem(placeholder);
+                }
+            }
+        });
+    }
+    
 }

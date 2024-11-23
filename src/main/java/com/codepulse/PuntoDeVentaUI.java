@@ -13,10 +13,10 @@ public class PuntoDeVentaUI extends JFrame {
     private JPanel bottomPanel;
 
     private JButton btnAgregarProducto, btnQuitarProducto, btnFinalizarVenta,btnHistorial,btnRegresar,btnAgregarStock;
-    private JTextField txtBuscarProducto;
     private JLabel lblTotal, lblNombre;
     private JTable tableProductos;
     private JSpinner spinnerCantidad;
+    private JComboBox<String> jcbBuscaProducto;
     private int suma;
 
     private CustomTableModel tableModel;
@@ -105,14 +105,15 @@ public class PuntoDeVentaUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        txtBuscarProducto = new JTextField(15);
+        jcbBuscaProducto = new JComboBox<>();
+        sqlite.inicializarComboBox(jcbBuscaProducto, "none");
+        jcbBuscaProducto.setEditable(true);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         productOptionsPanel.add(new JLabel("Buscar Producto:"), gbc);
-
         gbc.gridx = 1;
-        productOptionsPanel.add(txtBuscarProducto, gbc);
+        productOptionsPanel.add(jcbBuscaProducto, gbc);
 
         spinnerCantidad = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         gbc.gridx = 0;
@@ -124,8 +125,9 @@ public class PuntoDeVentaUI extends JFrame {
 
         btnAgregarProducto = new JButton("Agregar Producto");
         btnAgregarProducto.addActionListener(e->{
-            String prod=txtBuscarProducto.getText();
-            sqlite.buscarProducto(prod,tableProductos,spinnerCantidad);
+            //String prod=txtBuscarProducto.getText();
+            sqlite.cargaDatosDeSql(jcbBuscaProducto);
+            sqlite.buscarProductoDinamico(jcbBuscaProducto,tableProductos,spinnerCantidad);
             recalcularTotal();
         });
         btnAgregarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));
@@ -150,7 +152,8 @@ public class PuntoDeVentaUI extends JFrame {
 
         btnFinalizarVenta = new JButton("Finalizar Venta");
         btnFinalizarVenta.addActionListener(e->{
-            VtnConfirmaVta vta=new VtnConfirmaVta();
+           String ven= sqlite.generarResumen(tableProductos);
+            VtnConfirmaVta vta=new VtnConfirmaVta(ven,tableProductos);
             vta.setVisible(true);
         });
         btnFinalizarVenta.setFont(new Font("FreeSans", Font.BOLD, 20));
