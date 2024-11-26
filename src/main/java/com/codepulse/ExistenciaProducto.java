@@ -8,9 +8,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 public class ExistenciaProducto extends JFrame{
     private JPanel backGround;
@@ -21,14 +23,14 @@ public class ExistenciaProducto extends JFrame{
     private JPanel fondo;
     private JPanel bottomPanel;
 
-    public ExistenciaProducto(){
+    public ExistenciaProducto(JComboBox<String> jcbBuscaProducto){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 200);
 		setVisible(true);
         setLocationRelativeTo(null);
 
         configurarFondo();
-        centerPanelSide();
+        centerPanelSide(jcbBuscaProducto);
         bottomPanelside();
 
 
@@ -40,7 +42,7 @@ public class ExistenciaProducto extends JFrame{
         setContentPane(fondo);
     }
 
-    public void centerPanelSide(){
+    public void centerPanelSide(JComboBox<String> jcbBuscaProducto){
 		backGround = new JPanel(new GridBagLayout());
         backGround.setBackground(new Color(200, 200, 200));
 
@@ -66,7 +68,7 @@ public class ExistenciaProducto extends JFrame{
 
         btnProdNuevo=new JButton("Producto Nuevo");
         btnProdNuevo.addActionListener(e->{
-            AgregarProducto producto=new AgregarProducto();
+            AgregarProducto producto=new AgregarProducto(jcbBuscaProducto);
             producto.setVisible(true);
             this.dispose();
         });
@@ -95,9 +97,10 @@ public class ExistenciaProducto extends JFrame{
         fondo.add(bottomPanel,BorderLayout.SOUTH); 
 
     }
-
+/* 
     public static void main(String[] args) {
         ExistenciaProducto producto=new ExistenciaProducto();
         producto.setVisible(true);
     }
+    */
 }

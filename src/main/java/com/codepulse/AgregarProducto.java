@@ -28,7 +28,7 @@ public class AgregarProducto extends JFrame {
     private JButton exit;
 
 
-    public AgregarProducto() {
+    public AgregarProducto(JComboBox<String> jcbBuscaProducto) {
         // Configurar la ventana
         setBounds(100, 100, 550, 500);
         setLocationRelativeTo(null);
@@ -203,6 +203,8 @@ public class AgregarProducto extends JFrame {
             JOptionPane.showMessageDialog(null, "Se agrego producto al stock");
 
             sqlite.insertarProducto(nombre,cantidad, precio);
+            sqlite.cargaDatosDeSql(jcbBuscaProducto);
+
         });
         btnAgregar.setBackground(new Color(255, 255, 255));
         btnAgregar.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
@@ -213,12 +215,12 @@ public class AgregarProducto extends JFrame {
         gbc.fill=GridBagConstraints.BOTH;
         mainPanel.add(btnAgregar,gbc);
     }
-
+/*
     public static void main(String[] args) {
         AgregarProducto r = new AgregarProducto();
         r.setVisible(true);
     }
-
+*/
     private void borraTextRestaura(JTextField field,String texto){
     
         field.addFocusListener(new FocusListener() {
