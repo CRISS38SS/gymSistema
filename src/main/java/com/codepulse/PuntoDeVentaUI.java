@@ -107,6 +107,7 @@ public class PuntoDeVentaUI extends JFrame {
 
         jcbBuscaProducto = new JComboBox<>();
         sqlite.inicializarComboBox(jcbBuscaProducto, "");
+        sqlite.inicializarComboBox(jcbBuscaProducto, "none");
         jcbBuscaProducto.setEditable(true);
         gbc.gridx = 0;
         gbc.gridy = 0;

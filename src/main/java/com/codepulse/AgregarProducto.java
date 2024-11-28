@@ -205,6 +205,7 @@ public class AgregarProducto extends JFrame {
 
             sqlite.insertarProducto(nombre,cantidad, precio);
             //sqlite.cargaDatosDeSql(jcbBuscaProducto);
+            sqlite.cargaDatosDeSql(jcbBuscaProducto);
 
         });
         btnAgregar.setBackground(new Color(255, 255, 255));
