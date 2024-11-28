@@ -126,7 +126,9 @@ public class Principal extends JFrame {
 
 		JButton btnVerUsuario = new JButton("Ver Usuario");
 		btnVerUsuario.addActionListener(e->{
-			JOptionPane.showMessageDialog(null, "se abre ver usuario");
+			verUsuarios verUsuarios = new verUsuarios(id);
+			verUsuarios.setVisible(true);
+			this.dispose();
 		});
 		btnVerUsuario.setBackground(new Color(154, 153, 150));
 		btnVerUsuario.setFont(new Font("FreeSans", Font.BOLD, 26));

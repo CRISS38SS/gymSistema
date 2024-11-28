@@ -20,7 +20,7 @@ public class verUsuarios extends JFrame{
     private CustomTableModel tableModel;
 
 
-    public verUsuarios(){
+    public verUsuarios(int id){
         setTitle("Ver usuarios");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -28,7 +28,7 @@ public class verUsuarios extends JFrame{
 
         configurarBackGround();
         leftSidePanel();
-        bottomSidePanel();
+        bottomSidePanel(id);
         centerSidePanel();
         //agregarBotonEliminar();
     }
@@ -54,11 +54,16 @@ public class verUsuarios extends JFrame{
         backGround.add(leftJPanel, BorderLayout.WEST);
     }
 
-    private void bottomSidePanel(){
+    private void bottomSidePanel(int id){
         bottomJPanel = new JPanel(new BorderLayout());
         bottomJPanel.setBackground(new Color(223, 223, 223));
 
         btnBack = new JButton("Atras");
+        btnBack.addActionListener(e->{
+            Principal principal=new Principal(id);
+            principal.setVisible(true);
+            this.dispose();
+        });
         btnBack.setFont(new Font("FreeSans", Font.BOLD, 20));
 		btnBack.setBackground(new Color(119, 118, 123));
 		btnBack.setForeground(new Color(255, 255, 255));
@@ -124,7 +129,7 @@ public class verUsuarios extends JFrame{
     }
 
     public static void main(String[] args) {
-        verUsuarios verUsuarios = new verUsuarios();
+        verUsuarios verUsuarios = new verUsuarios(1);
         verUsuarios.setVisible(true);
     }
 }
