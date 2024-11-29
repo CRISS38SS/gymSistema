@@ -41,9 +41,7 @@ public class RegistroCajero extends JFrame {
 
 
 		GridBagConstraints gbc=new GridBagConstraints();
-		//
-		//sqlite sql=new sqlite();
-		
+
 		panelIzquierdo = new JPanel(new GridBagLayout());
 		panelIzquierdo.setBackground(new Color(154, 153, 150));
 		gbc=new GridBagConstraints();
@@ -80,7 +78,6 @@ public class RegistroCajero extends JFrame {
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnSalir.setBorder(null);
-		//btnSalir.setPreferredSize(new Dimension(120,120));
 		gbc=new GridBagConstraints();
 		gbc.gridy=2;
 		gbc.anchor=GridBagConstraints.PAGE_END;

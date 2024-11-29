@@ -68,11 +68,4 @@ public class VtnConfirmaVta extends JFrame {
         backGround.add(btnConfimar,gbc);
 
     }
-/* 
-    public static void main(String[] args) {
-        VtnConfirmaVta vta=new VtnConfirmaVta("d",);
-        vta.setVisible(true);
-    }
-        */
-    
 }

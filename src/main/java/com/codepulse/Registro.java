@@ -41,8 +41,6 @@ public class Registro extends JFrame {
 
 
 		GridBagConstraints gbc=new GridBagConstraints();
-		//
-		//sqlite sql=new sqlite();
 		
 		panelIzquierdo = new JPanel(new GridBagLayout());
 		panelIzquierdo.setBackground(new Color(154, 153, 150));

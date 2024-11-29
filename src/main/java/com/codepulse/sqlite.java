@@ -320,7 +320,7 @@ public class sqlite {
         
         for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
             int id=Integer.parseInt(tableProductos.getValueAt(i, 0).toString());
-            int cantidad = Integer.parseInt(tableProductos.getValueAt(i, 2).toString()); // Columna de la cantidad
+            int cantidad = Integer.parseInt(tableProductos.getValueAt(i, 2).toString());
 
             String sql = "UPDATE producto " +
                    "SET cantidad = CASE " +
@@ -382,9 +382,9 @@ public class sqlite {
                     row[4] = (fechaT != null) ? outputFormat.format(fechaT) : "";
 
                     if (fechaT == null || fechaT.after(fechaActual)) {
-                        row[5] = "Sí"; // Usuario activo
+                        row[5] = "Sí"; 
                     } else {
-                        row[5] = "No"; // Usuario inactivo
+                        row[5] = "No"; 
                     }
                 } catch (ParseException e) {
                     row[3] = fechaIString;
@@ -401,9 +401,8 @@ public class sqlite {
             TableColumn nombreColumn = jttableUsuario.getColumnModel().getColumn(1); // 1 es el índice de la columna "Nombre"
             nombreColumn.setPreferredWidth(50); // Ajusta el ancho de la columna de nombre
 
-            // Ajustar otras columnas si es necesario
             TableColumn tipoColumn = jttableUsuario.getColumnModel().getColumn(2); // 1 es el índice de la columna "Nombre"
-            tipoColumn.setPreferredWidth(30); // Ajusta el ancho de la columna de nombre
+            tipoColumn.setPreferredWidth(30); 
 
 
         } catch (SQLException e) {

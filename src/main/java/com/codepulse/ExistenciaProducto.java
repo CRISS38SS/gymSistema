@@ -96,10 +96,4 @@ public class ExistenciaProducto extends JFrame{
         fondo.add(bottomPanel,BorderLayout.SOUTH); 
 
     }
-/* 
-    public static void main(String[] args) {
-        ExistenciaProducto producto=new ExistenciaProducto();
-        producto.setVisible(true);
-    }
-    */
 }
