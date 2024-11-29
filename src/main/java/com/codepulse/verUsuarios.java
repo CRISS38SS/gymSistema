@@ -1,8 +1,12 @@
 package com.codepulse;
 
 import java.awt.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class verUsuarios extends JFrame{
     private JPanel backGround;
@@ -23,14 +27,13 @@ public class verUsuarios extends JFrame{
     public verUsuarios(int id){
         setTitle("Ver usuarios");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
 
         configurarBackGround();
         leftSidePanel();
         bottomSidePanel(id);
         centerSidePanel();
-        //agregarBotonEliminar();
     }
 
     private void configurarBackGround() {
@@ -44,7 +47,7 @@ public class verUsuarios extends JFrame{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        ImageIcon icon=new ImageIcon("src/main/java/com/Imagenes/logoCodePulse.jpg");
+        ImageIcon icon=new ImageIcon(getClass().getResource("/com/Imagenes/logoCodePulse.jpg"));
         lblLeft = new JLabel(icon);
 		Image image=icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		lblLeft.setIcon(new ImageIcon(image));
@@ -76,9 +79,8 @@ public class verUsuarios extends JFrame{
         centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(new Color(12, 12, 111));
 
-        String[] columnNames = {"ID", "Nombre", "suscripción", "Inicia", "Termina"};
-        Object[][] data = {{1,"cristian","Mensual","20 enero","20 febrero"},{2,"leonardo","semanal","20 enero","20 febrero"},{3,"eduardo","visita","20 enero","20 febrero"},{4,"Claudia","Mensual","20 enero","20 febrero"}};
-        tableModel = new CustomTableModel(data, columnNames);
+        String[] columnNames = {"ID", "Nombre", "suscripción", "Inicia", "Termina","Activo"};
+        tableModel = new CustomTableModel(new Object[0][0], columnNames);
         jttableUsuario = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(jttableUsuario);
         centerPanel.add(scrollPane, BorderLayout.CENTER);
@@ -92,11 +94,23 @@ public class verUsuarios extends JFrame{
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        usuarioOptionPanel.add(new JLabel("Buscar Usuario:"), gbc);
+        usuarioOptionPanel.add(new JLabel("Buscar Usuario por nombre:"), gbc);
         gbc.gridx = 1;
         usuarioOptionPanel.add(txtBuscaUsuario, gbc);
 
         JButton btnBuscar=new JButton("Buscar");
+        btnBuscar.addActionListener(e -> {
+            String textoBusqueda = txtBuscaUsuario.getText().trim().toLowerCase();
+            TableRowSorter<CustomTableModel> sorter = new TableRowSorter<>(tableModel);
+            jttableUsuario.setRowSorter(sorter);
+
+            if (!textoBusqueda.isEmpty()) {
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textoBusqueda,1));
+            } else {
+                sorter.setRowFilter(null);
+            }
+        });
+
         btnBuscar.setFont(new Font("FreeSans", Font.BOLD, 20));
 		btnBuscar.setBackground(new Color(119, 118, 123));
 		btnBuscar.setForeground(new Color(255, 255, 255));
@@ -107,25 +121,8 @@ public class verUsuarios extends JFrame{
 
         centerPanel.add(usuarioOptionPanel,BorderLayout.NORTH);
         backGround.add(centerPanel, BorderLayout.CENTER);
-    }
 
-    private void agregarBotonEliminar() {
-        JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.addActionListener(e -> eliminarFilaSeleccionada());
-        btnEliminar.setFont(new Font("FreeSans", Font.BOLD, 20));
-		btnEliminar.setBackground(new Color(119, 118, 123));
-		btnEliminar.setForeground(new Color(255, 255, 255));
-        GridBagConstraints gbc=new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=1;
-        leftJPanel.add(btnEliminar, gbc);
-    }
-
-    private void eliminarFilaSeleccionada() {
-        int filaSeleccionada = jttableUsuario.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            tableModel.eliminarFila(filaSeleccionada);
-        }
+        sqlite.cargarUsuariosDesdeBD(jttableUsuario);
     }
 
     public static void main(String[] args) {
@@ -134,7 +131,6 @@ public class verUsuarios extends JFrame{
     }
 }
 
-// Clase personalizada para el modelo de la tabla
 class CustomTableModel extends DefaultTableModel {
 
     public CustomTableModel(Object[][] data, Object[] columnNames) {
@@ -147,11 +143,23 @@ class CustomTableModel extends DefaultTableModel {
         return false;
     }
 
-    public void eliminarFila(int fila) {
-        if (fila >= 0 && fila < getRowCount()) {
-            // Eliminar la fila del modelo
-            removeRow(fila);
-            fireTableRowsDeleted(fila, fila);
+    @Override
+    public Object getValueAt(int row, int column) {
+        Object value = super.getValueAt(row, column);
+    
+        // Formatear las fechas para las columnas de fecha (por ejemplo, columnas 3 y 4)
+        if ((column == 3 || column == 4) && value instanceof Date) {
+            try {
+                // Si es un objeto Date, formateamos la fecha
+                SimpleDateFormat outputFormat = new SimpleDateFormat("d 'de' MMMM 'del' yyyy");
+                return outputFormat.format((Date) value); // Formateamos la fecha
+            } catch (Exception e) {
+                // Si algo falla, retornamos el valor original
+                return value;
+            }
         }
+    
+        return value; // Retornamos el valor original si no es una fecha
     }
+    
 }
