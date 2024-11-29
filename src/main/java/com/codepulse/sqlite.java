@@ -355,9 +355,11 @@ public class sqlite {
             
             DefaultTableModel model = (DefaultTableModel) jttableUsuario.getModel();
             model.setRowCount(0);
+
+            Date fechaActual =new Date();
             
             while (rs.next()) {
-                Object[] row = new Object[5];
+                Object[] row = new Object[6];
 
                 row[0] = rs.getInt("idUsua");
                 row[1] = rs.getString("nombre") + " " + rs.getString("lastName");
@@ -378,6 +380,11 @@ public class sqlite {
                     row[3] = outputFormat.format(fechaI);
                     row[4] = (fechaT != null) ? outputFormat.format(fechaT) : "";
 
+                    if (fechaT == null || fechaT.after(fechaActual)) {
+                        row[5] = "Sí"; // Usuario activo
+                    } else {
+                        row[5] = "No"; // Usuario inactivo
+                    }
                 } catch (ParseException e) {
                     row[3] = fechaIString;
                     row[4] = fechaTString;
