@@ -14,7 +14,6 @@ import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 public class Principal extends JFrame {
 

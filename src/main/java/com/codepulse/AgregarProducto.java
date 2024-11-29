@@ -78,6 +78,7 @@ public class AgregarProducto extends JFrame {
         exit.setBackground(new Color(255, 255, 255));
         exit.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         exit.addActionListener(e->{
+            jcbBuscaProducto.removeAllItems();
             sqlite.cargaDatosDeSql(jcbBuscaProducto);
             dispose();
         });
@@ -204,7 +205,7 @@ public class AgregarProducto extends JFrame {
             JOptionPane.showMessageDialog(null, "Se agrego producto al stock");
 
             sqlite.insertarProducto(nombre,cantidad, precio);
-            //sqlite.cargaDatosDeSql(jcbBuscaProducto);
+            jcbBuscaProducto.removeAllItems();
             sqlite.cargaDatosDeSql(jcbBuscaProducto);
 
         });

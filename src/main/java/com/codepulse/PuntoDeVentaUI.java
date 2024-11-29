@@ -107,7 +107,7 @@ public class PuntoDeVentaUI extends JFrame {
 
         jcbBuscaProducto = new JComboBox<>();
         sqlite.inicializarComboBox(jcbBuscaProducto, "");
-        sqlite.inicializarComboBox(jcbBuscaProducto, "none");
+        sqlite.inicializarComboBox(jcbBuscaProducto, " ");
         jcbBuscaProducto.setEditable(true);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -129,6 +129,7 @@ public class PuntoDeVentaUI extends JFrame {
             //String prod=txtBuscarProducto.getText();
             sqlite.cargaDatosDeSql(jcbBuscaProducto);
             sqlite.buscarProductoDinamico(jcbBuscaProducto,tableProductos,spinnerCantidad);
+            sqlite.cargaDatosDeSql(jcbBuscaProducto);
             recalcularTotal();
         });
         btnAgregarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));

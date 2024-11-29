@@ -205,6 +205,7 @@ public class sqlite {
 
         if (nombreProducto.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, ingrese un nombre de producto para buscar.");
+            comboBox.removeAllItems();
             return;
         }
     
