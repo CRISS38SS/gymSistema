@@ -1,12 +1,11 @@
 package com.codepulse;
 
 import java.awt.*;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
+import com.codepulse.JModelTable.CustomTableModel;
+
 
 public class verUsuarios extends JFrame{
     private JPanel backGround;
@@ -129,36 +128,4 @@ public class verUsuarios extends JFrame{
         verUsuarios verUsuarios = new verUsuarios(1);
         verUsuarios.setVisible(true);
     }
-}
-
-class CustomTableModel extends DefaultTableModel {
-
-    public CustomTableModel(Object[][] data, Object[] columnNames) {
-        super(data, columnNames);
-    }
-
-    @Override
-    public boolean isCellEditable(int row, int column) {
-        return false;
-    }
-
-    @Override
-    public Object getValueAt(int row, int column) {
-        Object value = super.getValueAt(row, column);
-    
-        // Formatear las fechas para las columnas de fecha (por ejemplo, columnas 3 y 4)
-        if ((column == 3 || column == 4) && value instanceof Date) {
-            try {
-                // Si es un objeto Date, formateamos la fecha
-                SimpleDateFormat outputFormat = new SimpleDateFormat("d 'de' MMMM 'del' yyyy");
-                return outputFormat.format((Date) value); // Formateamos la fecha
-            } catch (Exception e) {
-                // Si algo falla, retornamos el valor original
-                return value;
-            }
-        }
-    
-        return value; // Retornamos el valor original si no es una fecha
-    }
-    
 }
