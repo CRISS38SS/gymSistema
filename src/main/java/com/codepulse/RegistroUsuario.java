@@ -1,6 +1,10 @@
 package com.codepulse;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+
+import com.codepulse.FitroJtextField.NumericFilter;
+
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -154,6 +158,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtEmail
         txtNumero=new JTextField("Numero",15);
+        ((AbstractDocument) txtNumero.getDocument()).setDocumentFilter(new NumericFilter());
         borraTextRestaura(txtNumero, "Numero");
         txtNumero.setBackground(new Color(246, 245, 244));
 		txtNumero.setFont(new Font("FreeSerif", Font.ITALIC, 24));
