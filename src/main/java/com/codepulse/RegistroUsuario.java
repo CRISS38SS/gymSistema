@@ -3,6 +3,7 @@ package com.codepulse;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import com.codepulse.FitroJtextField.AlphabeticFilter;
 import com.codepulse.FitroJtextField.NumericFilter;
 
 import java.awt.*;
@@ -113,6 +114,7 @@ public class RegistroUsuario extends JFrame {
 
         // Configuración de txtNombre debajo de lblImagenCostado
         txtNombre = new JTextField("Nombre");
+        ((AbstractDocument) txtNombre.getDocument()).setDocumentFilter(new AlphabeticFilter());
         borraTextRestaura(txtNombre, "Nombre");
         txtNombre.setBackground(new Color(246, 245, 244));
 		txtNombre.setFont(new Font("FreeSerif", Font.ITALIC, 24));
@@ -135,6 +137,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtLastName
         txtLastName=new JTextField("Apellido");
+        ((AbstractDocument) txtLastName.getDocument()).setDocumentFilter(new AlphabeticFilter());
         borraTextRestaura(txtLastName, "Apellido");
         txtLastName.setBackground(new Color(246, 245, 244));
 		txtLastName.setFont(new Font("FreeSerif", Font.ITALIC, 24));

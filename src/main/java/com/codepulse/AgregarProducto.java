@@ -1,6 +1,11 @@
 package com.codepulse;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+
+import com.codepulse.FitroJtextField.AlphabeticFilter;
+import com.codepulse.FitroJtextField.NumericFilter;
+
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -110,6 +115,7 @@ public class AgregarProducto extends JFrame {
 
         // Configuración de txtNombre debajo de lblImagenCostado
         txtNombre = new JTextField("Nombre");
+        ((AbstractDocument) txtNombre.getDocument()).setDocumentFilter(new AlphabeticFilter());
         borraTextRestaura(txtNombre, "Nombre");
         txtNombre.setBackground(new Color(246, 245, 244));
 		txtNombre.setFont(new Font("FreeSerif", Font.ITALIC, 24));
@@ -132,6 +138,7 @@ public class AgregarProducto extends JFrame {
 
         //configuracion de txtPrecio
         txtPrecio=new JTextField("Precio");
+        ((AbstractDocument) txtPrecio.getDocument()).setDocumentFilter(new NumericFilter());
         borraTextRestaura(txtPrecio, "Precio");
         txtPrecio.setBackground(new Color(246, 245, 244));
 		txtPrecio.setFont(new Font("FreeSerif", Font.ITALIC, 24));
@@ -155,6 +162,7 @@ public class AgregarProducto extends JFrame {
 
         //configuracion de txtCantidad
         txtCantidad=new JTextField("Cantidad",15);
+        ((AbstractDocument) txtCantidad.getDocument()).setDocumentFilter(new NumericFilter());
         borraTextRestaura(txtCantidad, "Cantidad");
         txtCantidad.setBackground(new Color(246, 245, 244));
 		txtCantidad.setFont(new Font("FreeSerif", Font.ITALIC, 24));

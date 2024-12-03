@@ -22,6 +22,9 @@ import java.awt.Dimension;
 
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+
+import com.codepulse.FitroJtextField.AlphabeticFilter;
 
 public class InicioSesion extends JFrame {
 
@@ -119,6 +122,7 @@ public class InicioSesion extends JFrame {
 		
 		
 		txtUsuario = new JTextField();
+		((AbstractDocument) txtUsuario.getDocument()).setDocumentFilter(new AlphabeticFilter());
 		txtUsuario.setBackground(new Color(246, 245, 244));
 		txtUsuario.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtUsuario.setBorder(null);
