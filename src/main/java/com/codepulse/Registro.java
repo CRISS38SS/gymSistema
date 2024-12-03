@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
 import com.codepulse.FitroJtextField.AlphabeticFilter;
+import com.codepulse.FitroJtextField.EmailFilter;
 
 public class Registro extends JFrame {
 
@@ -175,6 +176,7 @@ public class Registro extends JFrame {
 		panelDerecho.add(lblEmail,gbc);
 		
 		txtEmail = new JTextField();
+		((AbstractDocument) txtEmail.getDocument()).setDocumentFilter(new EmailFilter(lblEmail));
 		txtEmail.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtEmail.setColumns(10);
 		txtEmail.setBorder(null);
@@ -199,6 +201,7 @@ public class Registro extends JFrame {
 			String contrasena="";
 			String email="";
 			cajero cajero=new cajero();
+			String lbemail=lblEmail.getText();
 			cajero.setUsuario(txtUsuario.getText());
 			cajero.setContraseña(String.valueOf(txtContrasena.getPassword()));
 			cajero.setEmail(txtEmail.getText());
@@ -206,8 +209,8 @@ public class Registro extends JFrame {
 			nomCajero=cajero.getUsuario();
 			contrasena=cajero.getContraseña();
 			email=cajero.getEmail();
-			if (nomCajero.isEmpty()||contrasena.isEmpty()||email.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Debes de llenar los recuadros");
+			if (nomCajero.isEmpty()||contrasena.isEmpty()||email.isEmpty()||lbemail.equals("Correo no válido")) {
+				JOptionPane.showMessageDialog(null, "Debes de llenar los recuadros y/o un correo valido");
 			} else {
 				sqlite.registroAdmin(nomCajero, contrasena, email);
 			}
