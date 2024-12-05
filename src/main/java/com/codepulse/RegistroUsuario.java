@@ -1,6 +1,11 @@
 package com.codepulse;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+
+import com.codepulse.FitroJtextField.AlphabeticFilter;
+import com.codepulse.FitroJtextField.NumericFilter;
+
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -8,8 +13,6 @@ import java.awt.event.FocusListener;
 
 public class RegistroUsuario extends JFrame {
 
-    //dueño del gym jaim gomez ibarra
-    // Variables del panel
     private JPanel backGround;
     private JPanel costadoBackGround;
     private JPanel mainPanel;
@@ -31,32 +34,29 @@ public class RegistroUsuario extends JFrame {
 
 
     public RegistroUsuario() {
-        // Configurar la ventana
         setBounds(100, 100, 550, 500);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Panel principal con GridBagLayout
         backGround = new JPanel();
         backGround.setLayout(new GridBagLayout());
         setContentPane(backGround);
 
-        // Configuración del panel "costadoBackGround" en el lado izquierdo
-        costadoBackGround = new JPanel(new GridBagLayout()); // Usar GridBagLayout aquí también
+        costadoBackGround = new JPanel(new GridBagLayout());
         costadoBackGround.setBackground(new Color(200, 200, 200));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.2;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH; // Expande para llenar el espacio
+        gbc.fill = GridBagConstraints.BOTH; 
         backGround.add(costadoBackGround, gbc);
 
         // Configuración del panel principal (mainPanel) a la derecha de costadoBackGround
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(150, 150, 150));
         gbc.gridx = 1;
-        gbc.weightx = 0.8;       // Más espacio en el eje X para mainPanel
+        gbc.weightx = 0.8;
         backGround.add(mainPanel, gbc);
 
 
@@ -68,9 +68,9 @@ public class RegistroUsuario extends JFrame {
         Image image = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         lblImagenCostado.setIcon(new ImageIcon(image));
         lblImagenCostado.setFont(new Font("FreeSans", Font.BOLD, 30));
-        gbc = new GridBagConstraints(); // Reset de restricciones
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0; // Fila 0 para lblImagenCostado
+        gbc.gridy = 0;
         gbc.anchor=GridBagConstraints.PAGE_START;
         gbc.weighty=1;
         costadoBackGround.add(lblImagenCostado, gbc);
@@ -113,7 +113,8 @@ public class RegistroUsuario extends JFrame {
         mainPanel.add(lblNombre,gbc);
 
         // Configuración de txtNombre debajo de lblImagenCostado
-        txtNombre = new JTextField("Nombre"); // Agrega un tamaño preferido
+        txtNombre = new JTextField("Nombre");
+        ((AbstractDocument) txtNombre.getDocument()).setDocumentFilter(new AlphabeticFilter());
         borraTextRestaura(txtNombre, "Nombre");
         txtNombre.setBackground(new Color(246, 245, 244));
 		txtNombre.setFont(new Font("FreeSerif", Font.ITALIC, 24));
@@ -136,6 +137,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtLastName
         txtLastName=new JTextField("Apellido");
+        ((AbstractDocument) txtLastName.getDocument()).setDocumentFilter(new AlphabeticFilter());
         borraTextRestaura(txtLastName, "Apellido");
         txtLastName.setBackground(new Color(246, 245, 244));
 		txtLastName.setFont(new Font("FreeSerif", Font.ITALIC, 24));
@@ -159,6 +161,7 @@ public class RegistroUsuario extends JFrame {
 
         //configuracion de txtEmail
         txtNumero=new JTextField("Numero",15);
+        ((AbstractDocument) txtNumero.getDocument()).setDocumentFilter(new NumericFilter());
         borraTextRestaura(txtNumero, "Numero");
         txtNumero.setBackground(new Color(246, 245, 244));
 		txtNumero.setFont(new Font("FreeSerif", Font.ITALIC, 24));
@@ -193,7 +196,6 @@ public class RegistroUsuario extends JFrame {
         gbc.insets=new Insets(10, 10, 20, 10);
         mainPanel.add(JCBSubscription,gbc);
 
-        // Configuración final de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //configuracion btnRegistration

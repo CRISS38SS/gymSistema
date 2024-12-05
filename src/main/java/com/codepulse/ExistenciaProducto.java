@@ -12,7 +12,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 
 public class ExistenciaProducto extends JFrame{
     private JPanel backGround;
@@ -97,10 +96,4 @@ public class ExistenciaProducto extends JFrame{
         fondo.add(bottomPanel,BorderLayout.SOUTH); 
 
     }
-/* 
-    public static void main(String[] args) {
-        ExistenciaProducto producto=new ExistenciaProducto();
-        producto.setVisible(true);
-    }
-    */
 }

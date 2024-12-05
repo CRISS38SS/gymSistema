@@ -19,6 +19,10 @@ import java.awt.Dimension;
 
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+
+import com.codepulse.FitroJtextField.AlphabeticFilter;
+import com.codepulse.FitroJtextField.EmailFilter;
 
 public class RegistroCajero extends JFrame {
 
@@ -41,9 +45,7 @@ public class RegistroCajero extends JFrame {
 
 
 		GridBagConstraints gbc=new GridBagConstraints();
-		//
-		//sqlite sql=new sqlite();
-		
+
 		panelIzquierdo = new JPanel(new GridBagLayout());
 		panelIzquierdo.setBackground(new Color(154, 153, 150));
 		gbc=new GridBagConstraints();
@@ -80,7 +82,6 @@ public class RegistroCajero extends JFrame {
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
 		btnSalir.setBorder(null);
-		//btnSalir.setPreferredSize(new Dimension(120,120));
 		gbc=new GridBagConstraints();
 		gbc.gridy=2;
 		gbc.anchor=GridBagConstraints.PAGE_END;
@@ -113,6 +114,7 @@ public class RegistroCajero extends JFrame {
 		panelDerecho.add(separatorUsuario,gbc);
 		
 		txtUsuario = new JTextField();
+		((AbstractDocument) txtUsuario.getDocument()).setDocumentFilter(new AlphabeticFilter());
 		txtUsuario.setBackground(new Color(246, 245, 244));
 		txtUsuario.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtUsuario.setColumns(10);
@@ -156,6 +158,7 @@ public class RegistroCajero extends JFrame {
 		panelDerecho.add(lblEmail,gbc);
 		
 		txtEmail = new JTextField();
+		((AbstractDocument) txtEmail.getDocument()).setDocumentFilter(new EmailFilter(lblEmail));
 		txtEmail.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtEmail.setColumns(10);
 		txtEmail.setBorder(null);
@@ -180,6 +183,7 @@ public class RegistroCajero extends JFrame {
 			String contrasena="";
 			String email="";
 			cajero cajero=new cajero();
+			String lbemail=lblEmail.getText();
 			cajero.setUsuario(txtUsuario.getText());
 			cajero.setContraseña(String.valueOf(txtContrasena.getPassword()));
 			cajero.setEmail(txtEmail.getText());
@@ -187,7 +191,7 @@ public class RegistroCajero extends JFrame {
 			nomCajero=cajero.getUsuario();
 			contrasena=cajero.getContraseña();
 			email=cajero.getEmail();
-			if (nomCajero.isEmpty()||contrasena.isEmpty()||email.isEmpty()) {
+			if (nomCajero.isEmpty()||contrasena.isEmpty()||email.isEmpty()|| lbemail.equals("Correo no válido")) {
 				JOptionPane.showMessageDialog(null, "Debes de llenar los recuadros");
 			} else {
 				sqlite.AddCajero(nomCajero, contrasena, email);

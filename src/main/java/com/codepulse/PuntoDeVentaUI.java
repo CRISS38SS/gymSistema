@@ -106,7 +106,8 @@ public class PuntoDeVentaUI extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         jcbBuscaProducto = new JComboBox<>();
-        sqlite.inicializarComboBox(jcbBuscaProducto, "none");
+        sqlite.inicializarComboBox(jcbBuscaProducto, "");
+        sqlite.inicializarComboBox(jcbBuscaProducto, " ");
         jcbBuscaProducto.setEditable(true);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -125,9 +126,9 @@ public class PuntoDeVentaUI extends JFrame {
 
         btnAgregarProducto = new JButton("Agregar Producto");
         btnAgregarProducto.addActionListener(e->{
-            //String prod=txtBuscarProducto.getText();
             sqlite.cargaDatosDeSql(jcbBuscaProducto);
             sqlite.buscarProductoDinamico(jcbBuscaProducto,tableProductos,spinnerCantidad);
+            sqlite.cargaDatosDeSql(jcbBuscaProducto);
             recalcularTotal();
         });
         btnAgregarProducto.setFont(new Font("FreeSans", Font.BOLD, 20));
@@ -231,7 +232,7 @@ public class PuntoDeVentaUI extends JFrame {
         // Pedir la cantidad a restar
         String input = JOptionPane.showInputDialog(parent, "Ingresa la cantidad a restar:");
         if (input == null || input.trim().isEmpty()) {
-            return; // Cancelar si no se ingresa nada
+            return;
         }
 
         try {

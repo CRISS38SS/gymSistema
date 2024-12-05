@@ -22,7 +22,9 @@ public class App {
                 + "lastName TEXT NOT NULL,"
                 + "numero TEXT NOT NULL,"
                 + "fprint TEXT NOT NULL,"
-                + "subscription TEXT NOT NULL"
+                + "subscription TEXT NOT NULL,"
+                + "fechaI DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                + "fechaT DATETIME"
                 + ");";
         db.crearTablas(createUsuarioTable);
         System.out.println("Tabla 'usuario' creada.");

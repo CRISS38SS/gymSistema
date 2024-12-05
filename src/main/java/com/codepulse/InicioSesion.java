@@ -22,6 +22,9 @@ import java.awt.Dimension;
 
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+
+import com.codepulse.FitroJtextField.AlphabeticFilter;
 
 public class InicioSesion extends JFrame {
 
@@ -45,14 +48,14 @@ public class InicioSesion extends JFrame {
 		gbc.gridx=0;
 		gbc.weightx = 0.2;
         gbc.weighty = 1.0;
-		gbc.fill = GridBagConstraints.BOTH; // Expande para llenar el espacio
+		gbc.fill = GridBagConstraints.BOTH;
 		panelIzquierdo.setBackground(new Color(154, 153, 150));
 		backGround.add(panelIzquierdo,gbc);
 
 		panelDerecho=new JPanel(new GridBagLayout());
 		gbc.gridx=1;
 		gbc.weightx = 0.8;
-		gbc.fill = GridBagConstraints.BOTH; // Expande para llenar el espacio
+		gbc.fill = GridBagConstraints.BOTH;
 		panelDerecho.setBackground(new Color(246, 245, 244));
 		backGround.add(panelDerecho,gbc);
 		
@@ -61,7 +64,6 @@ public class InicioSesion extends JFrame {
         Image image = icono.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         lblImagen.setIcon(new ImageIcon(image));
 		gbc=new GridBagConstraints();
-		//gbc.gridx=0;
 		gbc.gridy=0;
 		gbc.weighty=1;
 		gbc.insets=new Insets(10, 15, 20, 15);
@@ -120,6 +122,7 @@ public class InicioSesion extends JFrame {
 		
 		
 		txtUsuario = new JTextField();
+		((AbstractDocument) txtUsuario.getDocument()).setDocumentFilter(new AlphabeticFilter());
 		txtUsuario.setBackground(new Color(246, 245, 244));
 		txtUsuario.setFont(new Font("FreeSerif", Font.ITALIC, 24));
 		txtUsuario.setBorder(null);
@@ -131,7 +134,7 @@ public class InicioSesion extends JFrame {
 		JSeparator separatorUsuario = new JSeparator();
 		gbc=new GridBagConstraints();
 		separatorUsuario.setForeground(new Color(0, 0, 0));
-		separatorUsuario.setPreferredSize(new java.awt.Dimension(180, 2)); // Ajusta el tamaño si es necesario
+		separatorUsuario.setPreferredSize(new java.awt.Dimension(180, 2)); 
 		gbc.gridx=1;
 		gbc.gridy=2;
 		gbc.insets=new Insets(0, 0, 35, 0);
@@ -147,7 +150,7 @@ public class InicioSesion extends JFrame {
 		JSeparator separatorContrasena = new JSeparator();
 		gbc=new GridBagConstraints();
 		separatorContrasena.setForeground(Color.BLACK);
-		separatorContrasena.setPreferredSize(new java.awt.Dimension(180, 2)); // Ajusta el tamaño si es necesario
+		separatorContrasena.setPreferredSize(new java.awt.Dimension(180, 2));
 		gbc.gridx=1;
 		gbc.gridy=4;
 		gbc.insets=new Insets(0, 0, 35, 0);

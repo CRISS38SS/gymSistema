@@ -14,7 +14,6 @@ import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 public class Principal extends JFrame {
 
@@ -23,25 +22,6 @@ public class Principal extends JFrame {
 	private JPanel panelIzquierdo;
 	private JButton btnRegistroCajero;
 
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Principal frame = new Principal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public Principal(int id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 490);
@@ -126,11 +106,12 @@ public class Principal extends JFrame {
 
 		JButton btnVerUsuario = new JButton("Ver Usuario");
 		btnVerUsuario.addActionListener(e->{
-			JOptionPane.showMessageDialog(null, "se abre ver usuario");
+			verUsuarios verUsuarios = new verUsuarios(id);
+			verUsuarios.setVisible(true);
+			this.dispose();
 		});
 		btnVerUsuario.setBackground(new Color(154, 153, 150));
 		btnVerUsuario.setFont(new Font("FreeSans", Font.BOLD, 26));
-		//btnVerUsuario.setBounds(248, 337, 590, 100);
 		gbc=new GridBagConstraints();
 		gbc.weightx=1;
 		gbc.gridx=0;
