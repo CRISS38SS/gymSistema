@@ -409,4 +409,44 @@ public class sqlite {
             e.printStackTrace();
         }
     }
+
+    public static int obtenerId(String nombre,String lastName,String numero){
+        String sql="SELECT idUsua FROM usuario WHERE nombre=? AND lastName=? AND numero=?";
+        try (Connection con=DriverManager.getConnection(URL);
+            PreparedStatement ps=con.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ps.setString(2, lastName);
+            ps.setString(3, numero);
+
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()) {
+                int id=rs.getInt("idUsua");
+                return id;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return -1;
+    }
+
+    public static boolean verifcaQRCodeEnDatabase(String qrContent) {
+        boolean isValid = false;
+        String dbUrl = "jdbc:sqlite:path_to_your_database.db"; // Reemplaza con la ruta a tu base de datos SQLite
+        String query = "SELECT COUNT(*) FROM usuario WHERE fprint = ?";
+
+        try (Connection conn = DriverManager.getConnection(dbUrl);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, qrContent);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                isValid = true; // El QR coincide con un registro en la base de datos
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isValid;
+    }
 }

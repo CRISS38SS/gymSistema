@@ -5,6 +5,7 @@ import javax.swing.text.AbstractDocument;
 
 import com.codepulse.FitroJtextField.AlphabeticFilter;
 import com.codepulse.FitroJtextField.NumericFilter;
+import com.codepulse.QR.QRCodeGenerator;
 
 import java.awt.*;
 import java.awt.event.FocusEvent;
@@ -223,16 +224,26 @@ public class RegistroUsuario extends JFrame {
             usuario.setLastName(txtLastName.getText());
             usuario.setNumero(txtNumero.getText());
             usuario.setSubscription(JCBSubscription.getSelectedItem().toString());
-            usuario.setFprint("hola");
+            int id=sqlite.obtenerId(usuario.getName(),usuario.getLastName(),usuario.getNumero());
+            try {
 
             String nombre="",lastname="",numero="",subscription="",fprint=" ";
+
             nombre=usuario.getName();
             lastname=usuario.getLastName();
             numero=usuario.getNumero();
             subscription=usuario.getSubscription();
+
+            String qe="N"+id+nombre+"gym";
+            usuario.setFprint(qe);
+
             fprint=usuario.getFprint();
 
             sqlite.insertarUsuario(nombre,lastname,numero,fprint,subscription);
+                QRCodeGenerator qrCodeGenerator=new QRCodeGenerator(nombre,lastname,numero,qe);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
         btnRegistration.setBackground(new Color(255, 255, 255));
         btnRegistration.setFont(new Font("DejaVu Sans", Font.BOLD, 25));

@@ -1,13 +1,15 @@
 package com.codepulse.QR;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Size;
 import org.opencv.videoio.VideoCapture;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
+
+import com.codepulse.Principal;
+import com.codepulse.sqlite;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,63 +25,75 @@ public class QRCodeScannerWithOpenCV {
         JFrame frame = new JFrame("Escáner de QR con OpenCV");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(640, 480);
+        frame.setLayout(new BorderLayout());
+
+        JLabel videoLabel = new JLabel();
+        JLabel statusLabel = new JLabel("Esperando QR...", SwingConstants.CENTER);
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        statusLabel.setForeground(Color.BLUE);
+
+        frame.add(videoLabel, BorderLayout.CENTER);
+        frame.add(statusLabel, BorderLayout.SOUTH);
+
         frame.setVisible(true);
 
         VideoCapture capture = new VideoCapture(0); // Inicializar cámara
         if (!capture.isOpened()) {
-            System.out.println("No se pudo abrir la cámara.");
+            JOptionPane.showMessageDialog(frame, "No se pudo abrir la cámara.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        JLabel videoLabel = new JLabel();
-        frame.add(videoLabel, BorderLayout.CENTER);
+        new Thread(() -> {
+            Mat frameMat = new Mat();
+            MultiFormatReader reader = new MultiFormatReader();
 
-        // Configuración del lector de códigos QR de ZXing
-        MultiFormatReader reader = new MultiFormatReader();
-
-        // Bucle para capturar el video y escanear los códigos QR
-        Mat frameMat = new Mat();
-        while (true) {
-            capture.read(frameMat); // Capturar un nuevo frame
-            if (frameMat.empty()) {
-                System.out.println("Error al capturar el frame.");
-                break;
-            }
-
-            // Convertir la imagen de OpenCV a BufferedImage
-            BufferedImage img = matToBufferedImage(frameMat);
-
-            // Intentar detectar el QR
-            try {
-                Result result = scanQRCode(img, reader);
-                if (result != null) {
-
-                    QrEncontrado qrEncontrado=new QrEncontrado("Encontrado");
-                    qrEncontrado.setVisible(true);
-                    break; // Detener al detectar un código QR
-                }
-                else {
-                    QrEncontrado qrEncontrado=new QrEncontrado("NO");
-                    qrEncontrado.setVisible(true);
+            while (true) {
+                capture.read(frameMat); // Capturar un nuevo frame
+                if (frameMat.empty()) {
+                    statusLabel.setText("Error al capturar el frame.");
                     break;
                 }
-            } catch (NotFoundException e) {
-                // No se encontró ningún QR, seguimos escaneando
+
+                BufferedImage img = matToBufferedImage(frameMat);
+
+                try {
+                    Result result = scanQRCode(img, reader);
+                    if (result != null) {
+                        String qrContenido=result.getText();
+                        statusLabel.setText("QR Detectado: " + qrContenido);
+                        statusLabel.setForeground(Color.GREEN);
+
+                        // Verificar en la base de datos
+                        if (sqlite.verifcaQRCodeEnDatabase(qrContenido)) {
+                            JOptionPane.showMessageDialog(frame, "QR válido. Acceso permitido.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            Principal principal=new Principal(0);
+                            principal.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "QR no válido. Acceso denegado.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break; // Detener al detectar un código QR
+                    } else {
+                        statusLabel.setText("No se encontró ningún QR.");
+                        statusLabel.setForeground(Color.RED);
+                    }
+                } catch (NotFoundException e) {
+                    // No se encontró ningún QR
+                    statusLabel.setText("Escaneando...");
+                    statusLabel.setForeground(Color.BLUE);
+                }
+
+                videoLabel.setIcon(new ImageIcon(img));
+                frame.repaint();
+
+                try {
+                    Thread.sleep(30); // Pausar un poco para mejorar el rendimiento
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            // Mostrar la imagen en el JLabel
-            videoLabel.setIcon(new ImageIcon(img));
-            frame.repaint();
-
-            try {
-                Thread.sleep(30); // Pausar un poco para mejorar el rendimiento
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Cerrar la cámara
-        capture.release();
+            capture.release();
+        }).start();
     }
 
     public static BufferedImage matToBufferedImage(Mat mat) {
