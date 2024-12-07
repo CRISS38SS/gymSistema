@@ -53,8 +53,15 @@ public class QRCodeScannerWithOpenCV {
             try {
                 Result result = scanQRCode(img, reader);
                 if (result != null) {
-                    System.out.println("QR Detectado: " + result.getText());
+
+                    QrEncontrado qrEncontrado=new QrEncontrado("Encontrado");
+                    qrEncontrado.setVisible(true);
                     break; // Detener al detectar un código QR
+                }
+                else {
+                    QrEncontrado qrEncontrado=new QrEncontrado("NO");
+                    qrEncontrado.setVisible(true);
+                    break;
                 }
             } catch (NotFoundException e) {
                 // No se encontró ningún QR, seguimos escaneando
