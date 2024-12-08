@@ -468,7 +468,7 @@ public class sqlite {
         return isValid;
     }
 
-    public void actualizarProductoExis(String nombre,int cant){
+    public static void actualizarProductoExis(String nombre,int cant){
         String sql="UPDATE producto SET cantidad= cantidad + ? WHERE nombre=?";
 
         try (Connection con=DriverManager.getConnection(URL);

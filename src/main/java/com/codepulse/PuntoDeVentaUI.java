@@ -65,7 +65,7 @@ public class PuntoDeVentaUI extends JFrame {
         if (id==1) {
             btnAgregarStock=new JButton("Agregar Stock");
             btnAgregarStock.addActionListener(e->{
-                ExistenciaProducto producto=new ExistenciaProducto(jcbBuscaProducto);
+                ExistenciaProducto producto=new ExistenciaProducto(jcbBuscaProducto,id);
                 producto.setVisible(true);
             });
             btnAgregarStock.setFont(new Font("FreeSans", Font.BOLD, 20));

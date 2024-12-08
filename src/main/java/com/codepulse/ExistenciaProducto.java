@@ -22,14 +22,14 @@ public class ExistenciaProducto extends JFrame{
     private JPanel fondo;
     private JPanel bottomPanel;
 
-    public ExistenciaProducto(JComboBox<String> jcbBuscaProducto){
+    public ExistenciaProducto(JComboBox<String> jcbBuscaProducto, int id){
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 200);
 		setVisible(true);
         setLocationRelativeTo(null);
 
         configurarFondo();
-        centerPanelSide(jcbBuscaProducto);
+        centerPanelSide(jcbBuscaProducto, id);
         bottomPanelside();
 
 
@@ -41,7 +41,7 @@ public class ExistenciaProducto extends JFrame{
         setContentPane(fondo);
     }
 
-    public void centerPanelSide(JComboBox<String> jcbBuscaProducto){
+    public void centerPanelSide(JComboBox<String> jcbBuscaProducto,int id){
 		backGround = new JPanel(new GridBagLayout());
         backGround.setBackground(new Color(200, 200, 200));
 
@@ -58,7 +58,8 @@ public class ExistenciaProducto extends JFrame{
 
         btnProdExistente=new JButton("Producto Existente");
         btnProdExistente.addActionListener(e->{
-            
+            ActualizaProducto actualizaProducto=new ActualizaProducto(id);
+            actualizaProducto.setVisible(true);
         });
         btnProdExistente.setBackground(new Color(255, 255, 255));
         btnProdExistente.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
