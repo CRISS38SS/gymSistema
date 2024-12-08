@@ -15,31 +15,31 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
-public class QRCodeScannerWithOpenCV {
+public class QRCodeScannerWithOpenCV extends JFrame{
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // Cargar la librería de OpenCV
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Escáner de QR con OpenCV");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(640, 480);
-        frame.setLayout(new BorderLayout());
+    public QRCodeScannerWithOpenCV(){
+        setTitle("Scannear");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(640, 480);
+        setLayout(new BorderLayout());
 
         JLabel videoLabel = new JLabel();
         JLabel statusLabel = new JLabel("Esperando QR...", SwingConstants.CENTER);
         statusLabel.setFont(new Font("Arial", Font.BOLD, 16));
         statusLabel.setForeground(Color.BLUE);
 
-        frame.add(videoLabel, BorderLayout.CENTER);
-        frame.add(statusLabel, BorderLayout.SOUTH);
+        add(videoLabel, BorderLayout.CENTER);
+        add(statusLabel, BorderLayout.SOUTH);
 
-        frame.setVisible(true);
+        setVisible(true);
 
         VideoCapture capture = new VideoCapture(0); // Inicializar cámara
         if (!capture.isOpened()) {
-            JOptionPane.showMessageDialog(frame, "No se pudo abrir la cámara.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo abrir la cámara.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -65,11 +65,11 @@ public class QRCodeScannerWithOpenCV {
 
                         // Verificar en la base de datos
                         if (sqlite.verifcaQRCodeEnDatabase(qrContenido)) {
-                            JOptionPane.showMessageDialog(frame, "QR válido. Acceso permitido.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "QR válido. Acceso permitido.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                             Principal principal=new Principal(0);
                             principal.setVisible(true);
                         } else {
-                            JOptionPane.showMessageDialog(frame, "QR no válido. Acceso denegado.", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "QR no válido. Acceso denegado.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break; // Detener al detectar un código QR
                     } else {
@@ -83,7 +83,7 @@ public class QRCodeScannerWithOpenCV {
                 }
 
                 videoLabel.setIcon(new ImageIcon(img));
-                frame.repaint();
+                repaint();
 
                 try {
                     Thread.sleep(30); // Pausar un poco para mejorar el rendimiento
@@ -94,6 +94,11 @@ public class QRCodeScannerWithOpenCV {
 
             capture.release();
         }).start();
+    }
+
+    public static void main(String[] args) {
+        QRCodeScannerWithOpenCV c=new QRCodeScannerWithOpenCV();
+        
     }
 
     public static BufferedImage matToBufferedImage(Mat mat) {

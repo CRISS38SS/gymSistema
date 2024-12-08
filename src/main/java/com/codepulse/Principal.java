@@ -2,6 +2,9 @@ package com.codepulse;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.codepulse.QR.QRCodeScannerWithOpenCV;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -186,11 +189,29 @@ public class Principal extends JFrame {
 		gbc=new GridBagConstraints();
 		gbc.weighty=1;
 		gbc.weightx=1;
-		gbc.gridy=3;
+		gbc.gridy=4;
 		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.anchor=GridBagConstraints.PAGE_END;
 		gbc.insets=new Insets(0, 10, 5, 10);
 		panelIzquierdo.add(btnCerrarSesin,gbc);
+
+
+		JButton btnScannear = new JButton("Scannear QR");
+        btnScannear.addActionListener(e->{
+            QRCodeScannerWithOpenCV inicioSesion=new QRCodeScannerWithOpenCV();
+        });
+		btnScannear.setFont(new Font("FreeSans", Font.BOLD, 20));
+		btnScannear.setBackground(new Color(119, 118, 123));
+		btnScannear.setForeground(new Color(255, 255, 255));
+		btnScannear.setPreferredSize(new Dimension(200,80));
+		gbc=new GridBagConstraints();
+		gbc.weighty=1;
+		gbc.weightx=1;
+		gbc.gridy=3;
+		gbc.fill=GridBagConstraints.HORIZONTAL;
+		gbc.anchor=GridBagConstraints.PAGE_END;
+		gbc.insets=new Insets(0, 10, 5, 10);
+		panelIzquierdo.add(btnScannear,gbc);
 		
 		//--------------------------------------------------------------------
 	}
