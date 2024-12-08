@@ -8,7 +8,7 @@ public class App {
         // SQL para crear la tabla de productos
         String createProductoTable = "CREATE TABLE IF NOT EXISTS producto ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "nombre TEXT NOT NULL,"
+                + "nombre TEXT NOT NULL UNIQUE,"
                 + "cantidad INTEGER NOT NULL,"
                 + "precio REAL NOT NULL"
                 + ");";

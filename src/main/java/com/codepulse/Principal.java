@@ -198,7 +198,7 @@ public class Principal extends JFrame {
 
 		JButton btnScannear = new JButton("Scannear QR");
         btnScannear.addActionListener(e->{
-            QRCodeScannerWithOpenCV inicioSesion=new QRCodeScannerWithOpenCV();
+            QRCodeScannerWithOpenCV inicioSesion=new QRCodeScannerWithOpenCV(id);
         });
 		btnScannear.setFont(new Font("FreeSans", Font.BOLD, 20));
 		btnScannear.setBackground(new Color(119, 118, 123));

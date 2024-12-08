@@ -21,7 +21,7 @@ public class QRCodeScannerWithOpenCV extends JFrame{
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // Cargar la librería de OpenCV
     }
 
-    public QRCodeScannerWithOpenCV(){
+    public QRCodeScannerWithOpenCV(int id){
         setTitle("Scannear");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(640, 480);
@@ -64,9 +64,9 @@ public class QRCodeScannerWithOpenCV extends JFrame{
                         statusLabel.setForeground(Color.GREEN);
 
                         // Verificar en la base de datos
-                        if (sqlite.verifcaQRCodeEnDatabase(qrContenido)) {
+                        if (sqlite.verificaQRCodeEnDatabase(qrContenido)==true) {
                             JOptionPane.showMessageDialog(this, "QR válido. Acceso permitido.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            Principal principal=new Principal(0);
+                            Principal principal=new Principal(id);
                             principal.setVisible(true);
                         } else {
                             JOptionPane.showMessageDialog(this, "QR no válido. Acceso denegado.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -97,7 +97,7 @@ public class QRCodeScannerWithOpenCV extends JFrame{
     }
 
     public static void main(String[] args) {
-        QRCodeScannerWithOpenCV c=new QRCodeScannerWithOpenCV();
+        QRCodeScannerWithOpenCV c=new QRCodeScannerWithOpenCV(1);
         
     }
 

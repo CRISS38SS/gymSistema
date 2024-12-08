@@ -23,7 +23,7 @@ public class ExistenciaProducto extends JFrame{
     private JPanel bottomPanel;
 
     public ExistenciaProducto(JComboBox<String> jcbBuscaProducto){
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 200);
 		setVisible(true);
         setLocationRelativeTo(null);
@@ -57,6 +57,9 @@ public class ExistenciaProducto extends JFrame{
         backGround.add(lblTitulo,gbc);
 
         btnProdExistente=new JButton("Producto Existente");
+        btnProdExistente.addActionListener(e->{
+            
+        });
         btnProdExistente.setBackground(new Color(255, 255, 255));
         btnProdExistente.setFont(new Font("DejaVu Sans", Font.BOLD, 25));
         gbc=new GridBagConstraints();

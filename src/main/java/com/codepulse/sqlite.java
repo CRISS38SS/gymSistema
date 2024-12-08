@@ -429,24 +429,62 @@ public class sqlite {
         return -1;
     }
 
-    public static boolean verifcaQRCodeEnDatabase(String qrContent) {
+    public static boolean verificaQRCodeEnDatabase(String qrContent) {
         boolean isValid = false;
-        String dbUrl = "jdbc:sqlite:path_to_your_database.db"; // Reemplaza con la ruta a tu base de datos SQLite
-        String query = "SELECT COUNT(*) FROM usuario WHERE fprint = ?";
-
-        try (Connection conn = DriverManager.getConnection(dbUrl);
+        String query = "SELECT fechaT FROM usuario WHERE fprint = ?";
+    
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-
+    
+            // Asignar el valor del QR al placeholder
             pstmt.setString(1, qrContent);
+    
+            // Ejecutar la consulta
             ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next() && rs.getInt(1) > 0) {
-                isValid = true; // El QR coincide con un registro en la base de datos
+    
+            // Verificar si el QR existe en la base de datos
+            if (rs.next()) {
+                String fechaT = rs.getString("fechaT");
+    
+                // Si `fechaT` es null, consideramos que no ha caducado
+                if (fechaT == null) {
+                    isValid = true;
+                } else {
+                    // Convertir fechaT a LocalDateTime y compararla con la fecha actual
+                    LocalDateTime fechaExpiracion = LocalDateTime.parse(fechaT, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    LocalDateTime fechaActual = LocalDateTime.now();
+    
+                    // Validar que la fecha de expiración no haya pasado
+                    if (fechaExpiracion.isAfter(fechaActual)) {
+                        isValid = true;
+                    }
+                }
             }
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    
         return isValid;
+    }
+
+    public void actualizarProductoExis(String nombre,int cant){
+        String sql="UPDATE producto SET cantidad= cantidad + ? WHERE nombre=?";
+
+        try (Connection con=DriverManager.getConnection(URL);
+            PreparedStatement ps=con.prepareStatement(sql)) {
+                ps.setInt(1, cant);
+                ps.setString(2, nombre);
+
+                int rowA=ps.executeUpdate();
+            if (rowA>0) {
+                System.out.println("Cantidad actualizada para el producto con nombre: "+nombre);
+            }else{
+                System.out.println("No se encontró el producto con nombre: "+nombre);
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("ERROR AL ACTUALIZAR EL PRODUCTO");
+        }
     }
 }

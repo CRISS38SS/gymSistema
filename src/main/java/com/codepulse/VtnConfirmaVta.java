@@ -43,7 +43,7 @@ public class VtnConfirmaVta extends JFrame {
 
         btnCancelar =new JButton("Cancelar");
         btnCancelar.addActionListener(e->{this.dispose();});
-        btnCancelar.setBackground(new Color(150, 150, 150, 150));
+        btnCancelar.setBackground(new Color(150, 150, 150));
         btnCancelar.setFont(new Font("DejaVu Sans", Font.BOLD, 20));
         gbc=new GridBagConstraints();
         gbc.gridx=1;
@@ -58,7 +58,7 @@ public class VtnConfirmaVta extends JFrame {
             sqlite.rebajarCantidadBd(table);
             this.dispose();
         });
-        btnConfimar.setBackground(new Color(150,150,150,150));
+        btnConfimar.setBackground(new Color(150,150,150));
         btnConfimar.setFont(new Font("DejaVu Sans",Font.BOLD,20));
         gbc=new GridBagConstraints();
         gbc.gridx=2;
