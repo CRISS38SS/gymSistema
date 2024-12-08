@@ -38,6 +38,14 @@ public class App {
         db.crearTablas(createCajeroTable);
         System.out.println("se creo la tabla cajero");
 
+        String crearVentasTable="CREATE TABLE IF NOT EXISTS ventas("
+                +"idVenta INTEGER PRIMARY KEY AUTOINCREMENT,"
+                +"fecha DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                +"total REAL NOT NULL"
+                +");";
+        db.crearTablas(crearVentasTable);
+        System.out.println("se creo tabla ventas");
+
         // Iniciar la ventana de inicio de sesión
         InicioSesion is = new InicioSesion();
         is.setVisible(true);

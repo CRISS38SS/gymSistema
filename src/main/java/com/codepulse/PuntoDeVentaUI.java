@@ -3,6 +3,12 @@ package com.codepulse;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PuntoDeVentaUI extends JFrame {
 
@@ -153,8 +159,9 @@ public class PuntoDeVentaUI extends JFrame {
 
         btnFinalizarVenta = new JButton("Finalizar Venta");
         btnFinalizarVenta.addActionListener(e->{
-           String ven= sqlite.generarResumen(tableProductos);
-            VtnConfirmaVta vta=new VtnConfirmaVta(ven,tableProductos);
+            String ven= sqlite.generarResumen(tableProductos);
+            double tot=recalcularTotalDev();
+            VtnConfirmaVta vta=new VtnConfirmaVta(ven,tableProductos,tot);
             vta.setVisible(true);
         });
         btnFinalizarVenta.setFont(new Font("FreeSans", Font.BOLD, 20));
@@ -176,17 +183,20 @@ public class PuntoDeVentaUI extends JFrame {
     }
 
     private void mostrarHistorial() {
+        // Registrar la venta antes de mostrar el historial
+        // Ahora, mostrar el historial de ventas
         JDialog historialDialog = new JDialog(this, "Historial de Ventas", true);
         historialDialog.setSize(600, 400);
         historialDialog.setLocationRelativeTo(this);
 
-        String[] columnNames = {"ID Venta", "Fecha", "Total"};
-        Object[][] data = {
-                {"1", "2024-11-15", "$150.00"},
-                {"2", "2024-11-14", "$220.00"},
-                {"3", "2024-11-13", "$340.00"}
-        };
+        // Aquí puedes consultar las ventas registradas en la base de datos
+        String query = "SELECT idVenta, fecha, total FROM ventas";
+        Object[][] data = sqlite.obtenerHistorialVentas(query);  // Método para obtener el historial de ventas
 
+        // Columnas del historial
+        String[] columnNames = {"ID Venta", "Fecha", "Total"};
+        
+        // Crear la tabla con los datos obtenidos
         JTable tableHistorial = new JTable(new DefaultTableModel(data, columnNames));
         JScrollPane scrollPane = new JScrollPane(tableHistorial);
 
@@ -213,6 +223,27 @@ public class PuntoDeVentaUI extends JFrame {
         }
         lblTotal.setText("Total: "+suma);
     }
+
+    public double recalcularTotalDev() {
+        int columnIndice = 4;
+        double suma = 0.0;
+    
+        for (int fila = 0; fila < tableProductos.getRowCount(); fila++) {
+            Object valor = tableProductos.getValueAt(fila, columnIndice);
+    
+            if (valor instanceof Number) {
+                suma += ((Number) valor).doubleValue();  // Usamos double para manejar decimales
+            } else {
+                try {
+                    suma += Double.parseDouble(valor.toString());  // Aseguramos que se convierte a double
+                } catch (NumberFormatException e) {
+                    System.out.println("Error al convertir el valor: " + valor);
+                }
+            }
+        }
+        return suma;
+    }
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

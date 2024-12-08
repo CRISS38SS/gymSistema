@@ -487,4 +487,72 @@ public class sqlite {
             System.err.println("ERROR AL ACTUALIZAR EL PRODUCTO");
         }
     }
+
+    public static void registrarVenta(double total) {
+        String buscarVentaDelDia = "SELECT idVenta, total FROM ventas WHERE DATE(fecha) = DATE('now')";
+        String actualizarVenta = "UPDATE ventas SET total = total + ? WHERE idVenta = ?";
+        String nuevaVenta = "INSERT INTO ventas (total) VALUES (?)";
+    
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            conn.setAutoCommit(false); // Inicia una transacción
+    
+            try (PreparedStatement buscarStmt = conn.prepareStatement(buscarVentaDelDia)) {
+                ResultSet rs = buscarStmt.executeQuery();
+    
+                if (rs.next()) {
+                    // Existe una venta en el día actual
+                    int idVenta = rs.getInt("idVenta");
+                    double totalActual = rs.getDouble("total");
+    
+                    // Actualizar el total sumando la nueva venta
+                    try (PreparedStatement actualizarStmt = conn.prepareStatement(actualizarVenta)) {
+                        actualizarStmt.setDouble(1, total);
+                        actualizarStmt.setInt(2, idVenta);
+                        actualizarStmt.executeUpdate();
+                    }
+    
+                    System.out.println("Venta del día actualizada: Total previo $" + totalActual + ", Nuevo total $" + (totalActual + total));
+    
+                } else {
+                    // No hay ventas para el día actual, insertar una nueva
+                    try (PreparedStatement nuevaStmt = conn.prepareStatement(nuevaVenta)) {
+                        nuevaStmt.setDouble(1, total);
+                        nuevaStmt.executeUpdate();
+                    }
+    
+                    System.out.println("Nueva venta registrada: $" + total);
+                }
+    
+                conn.commit(); // Confirma la transacción
+            } catch (SQLException e) {
+                conn.rollback(); // Deshace los cambios si ocurre un error
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Método que obtiene el historial de ventas desde la base de datos
+     public static Object[][] obtenerHistorialVentas(String query) {
+        List<Object[]> ventas = new ArrayList<>();
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+    
+            while (rs.next()) {
+                int idVenta = rs.getInt("idVenta");
+                String fecha = rs.getString("fecha");
+                double total = rs.getDouble("total");                    ventas.add(new Object[] { idVenta, fecha, "$" + total });
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            
+        // Convertir la lista a un arreglo de Object[][]
+        return ventas.toArray(new Object[0][]);
+    }
+    
 }

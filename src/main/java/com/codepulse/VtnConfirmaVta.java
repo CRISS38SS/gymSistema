@@ -20,7 +20,7 @@ public class VtnConfirmaVta extends JFrame {
     private JButton btnConfimar;
     private JLabel lblConfirmar;
 
-    public  VtnConfirmaVta(String ventaR, JTable table){
+    public  VtnConfirmaVta(String ventaR, JTable table,double total){
         setBounds(100, 100, 400, 200);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -55,6 +55,7 @@ public class VtnConfirmaVta extends JFrame {
         btnConfimar=new JButton("Confirmar");
         btnConfimar.addActionListener(e->{
             JOptionPane.showMessageDialog(null, ventaR);
+            sqlite.registrarVenta(total);
             sqlite.rebajarCantidadBd(table);
             this.dispose();
         });
